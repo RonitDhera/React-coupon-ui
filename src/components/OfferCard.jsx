@@ -1,95 +1,179 @@
+// src/components/OfferCard.jsx
 import React, { useState } from 'react';
 
-const OfferCard = ({ storeLogo, offerText, endDate, showCode, offerValue, isExpired = false, tags = [] }) => {
-  const [showTerms, setShowTerms] = useState(false);
-  const [codeCopied, setCodeCopied] = useState(false); // For "Show Code" button
+const OfferCard = ({
+  storeLogo,
+  offerText,
+  endDate,
+  showCode, // true for "Show Code", false for "Get Offer"
+  offerValue, // The actual coupon code if showCode is true, otherwise can be a URL or null
+  isExpired, // To show expired styling and text
+  tags = [] // Array of tags like 'Verified', 'Exclusive', 'Featured'
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [copyStatus, setCopyStatus] = useState(''); // To show "Copied!" message
 
-  const handleButtonClick = () => {
-    if (isExpired) return; // Prevent action if expired
-
-    if (showCode) {
-      // Logic to copy code
-      navigator.clipboard.writeText(offerValue);
-      setCodeCopied(true);
-      setTimeout(() => setCodeCopied(false), 2000); // Reset after 2 seconds
-      // You might also want to open a modal here
-    } else {
-      // Logic for "Get Offer" (e.g., redirect to affiliate link)
-      window.open('https://example.com/offer-link', '_blank'); // Replace with actual offer link
-    }
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(offerValue)
+      .then(() => {
+        setCopyStatus('Copied!');
+        setTimeout(() => setCopyStatus(''), 2000); // Hide after 2 seconds
+      })
+      .catch(err => {
+        console.error('Failed to copy text: ', err);
+        setCopyStatus('Failed to copy!');
+      });
   };
 
-  const getTagClasses = (tag) => {
-    switch (tag.toLowerCase()) {
-      case 'verified':
-        return 'bg-green-100 text-green-700';
-      case 'exclusive':
-        return 'bg-blue-100 text-blue-700'; // Changed from yellow
-      case 'featured':
-        return 'bg-orange-100 text-orange-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
+  const buttonText = showCode ? 'Show Code' : 'Get Offer';
+  const buttonBgColor = isExpired ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600';
+  const buttonTextColor = 'text-white';
+
+  const storeName = "The Body Shop"; // Placeholder: Ideally this would come from props
+  const storeImage = "https://via.placeholder.com/100x100?text=Store+Logo"; // Placeholder: Ideally this would come from props
+
+  // Function to get the partial code for hover effect
+  const getPartialCode = (code) => {
+    if (!code) return 'S15'; // Default if no code, matching image
+    if (code.length >= 3) {
+      return code.slice(-3); // Last 3 characters for 'S15' like effect
     }
+    return code;
   };
 
   return (
-    <div className={`flex flex-col sm:flex-row items-center p-4 border rounded-lg shadow-sm mb-4 ${isExpired ? 'bg-gray-100 opacity-70 border-gray-300' : 'bg-white border-gray-200'}`}>
-      {/* Store Logo */}
-      <div className="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 mb-4 sm:mb-0 sm:mr-4 border border-gray-300 rounded-full overflow-hidden flex items-center justify-center bg-gray-100">
-        {storeLogo ? (
-          <img src={storeLogo} alt="Store Logo" className="w-full h-full object-contain" />
-        ) : (
-          <span className="text-xs text-gray-500">LOGO</span> // Changed to "LOGO" as per your images
-        )}
+    <div className={`relative bg-white rounded-lg shadow-md overflow-hidden flex mb-4 ${isExpired ? 'opacity-70' : ''}`}>
+      {/* Left Section: Logo & Text */}
+      <div className="flex-shrink-0 w-1/4 p-4 flex flex-col items-center justify-center border-r border-gray-200">
+        <div className="w-20 h-20 bg-gray-200 flex items-center justify-center rounded-full overflow-hidden mb-2">
+          {storeLogo ? (
+            <img src={storeLogo} alt="Store Logo" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-gray-500 text-xs text-center">LOGO</span>
+          )}
+        </div>
+        <p className="text-center text-sm font-semibold text-gray-700">The Body Shop</p>
       </div>
 
-      {/* Offer Details */}
-      <div className="flex-grow text-center sm:text-left mb-4 sm:mb-0 sm:pr-4"> {/* Added pr-4 for spacing before buttons */}
-        <p className={`text-lg font-semibold ${isExpired ? 'text-gray-500' : 'text-gray-800'}`}>
-          {offerText}
+      {/* Middle Section: Offer Description */}
+      <div className="flex-grow p-4 flex flex-col justify-center">
+        <h3 className="text-lg font-semibold text-gray-800">{offerText}</h3>
+        <p className={`text-sm ${isExpired ? 'text-red-600 font-semibold' : 'text-gray-600'}`}>
+          {endDate}
         </p>
-        <p className="text-sm text-gray-500 mt-1">
-          Ends: {endDate}
-        </p>
-        {/* Tags */}
-        <div className="mt-2 flex flex-wrap justify-center sm:justify-start gap-x-2 gap-y-1"> {/* Adjusted gap and flex-wrap */}
-          {tags.map((tag, i) => (
-            <span key={i} className={`${getTagClasses(tag)} text-xs font-medium px-2.5 py-0.5 rounded-full`}>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {tags.map((tag, index) => (
+            <span key={index} className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">
               {tag}
             </span>
           ))}
         </div>
       </div>
 
-      {/* Buttons and Terms */}
-      <div className="flex flex-col items-center sm:items-end flex-shrink-0 w-full sm:w-auto">
-        <button
-          onClick={handleButtonClick}
-          className={`px-6 py-2 rounded-md font-bold text-white transition-colors duration-200 ${
-            isExpired ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600' // Blue button as in image
-          }`}
-          disabled={isExpired}
+      {/* Right Section: Button & Hover Effect (SCRATCH-OFF STYLE) */}
+      <div className="relative flex-shrink-0 w-1/4 flex items-center justify-end pr-4"> {/* Adjusted pr-4 */}
+        <div
+          className="relative w-full h-full flex items-center justify-end"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {showCode ? (codeCopied ? 'COPIED!' : 'Show Code') : 'Get Offer'}
-          {showCode && <span className="ml-2 text-sm">${offerValue}</span>}
-        </button>
+          {/* Coupon Code Snippet (always visible, behind the button) */}
+          {showCode && (
+            <div
+              className={`absolute top-1/2 -translate-y-1/2 right-0 
+                          bg-gray-200 text-gray-700 font-bold 
+                          py-3 pl-4 pr-2 rounded-l-full rounded-r-md 
+                          flex items-center justify-center text-base z-0`} /* Removed transition, opacity, and translate-x here */
+              style={{ width: '80px', pointerEvents: 'none' }}
+            >
+              <span className="whitespace-nowrap">{getPartialCode(offerValue)}</span>
+            </div>
+          )}
 
-        <button
-          onClick={() => setShowTerms(!showTerms)}
-          className="text-gray-500 hover:text-blue-600 text-sm mt-2 flex items-center"
-        >
-          View Terms & Conditions
-          <svg className={`ml-1 w-4 h-4 transition-transform duration-200 ${showTerms ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </button>
-
-        {showTerms && (
-          <div className="mt-2 p-3 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600 w-full sm:w-auto">
-            <p>These are the terms and conditions for the offer. Please read carefully before use.</p>
-          </div>
-        )}
+          {/* Button (moves on hover to reveal snippet) */}
+          <button
+            onClick={() => {
+              if (!isExpired) {
+                setIsModalOpen(true);
+              }
+            }}
+            className={`relative ${buttonBgColor} ${buttonTextColor} font-bold py-3 px-4 rounded-md 
+                        transition-transform duration-300 ease-in-out z-10 whitespace-nowrap /* Added transition back to button */
+                        ${isHovered && showCode ? 'transform -translate-x-[65px]' : ''} /* Button moves left by snippet width minus overlap */
+                        ${isExpired ? 'opacity-60' : ''}`}
+            disabled={isExpired}
+            style={{ minWidth: '100px' }}
+          >
+            {buttonText}
+          </button>
+        </div>
+        <p className="absolute bottom-2 right-4 text-xs text-gray-500">View Terms & Conditions</p>
       </div>
+
+      {/* Modal - No changes here, keeping the previous modal code */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">Offer Details</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-semibold"
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className="flex items-center mb-6">
+              <img src={storeImage} alt={storeName} className="w-20 h-20 rounded-full mr-4 border border-gray-200" />
+              <div>
+                <h3 className="text-xl font-semibold text-gray-800">{storeName}</h3>
+                <p className="text-gray-600">{offerText}</p>
+              </div>
+            </div>
+
+            {showCode ? (
+              <div className="mt-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Coupon Code:
+                </label>
+                <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                  <input
+                    type="text"
+                    readOnly
+                    value={offerValue}
+                    className="flex-grow p-3 text-lg font-mono bg-gray-50 outline-none"
+                  />
+                  <button
+                    onClick={handleCopyCode}
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-5 transition-colors duration-200"
+                  >
+                    {copyStatus || 'Copy Code'}
+                  </button>
+                </div>
+                {copyStatus && <p className="text-sm text-green-600 mt-2">{copyStatus}</p>}
+              </div>
+            ) : (
+              <p className="mt-4 text-gray-700">
+                Click "Get Offer" to be redirected to the store's website.
+              </p>
+            )}
+
+            {!showCode && (
+                <a
+                  href={offerValue}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-md transition-colors duration-200"
+                >
+                  Go to Offer
+                </a>
+            )}
+
+          </div>
+        </div>
+      )}
     </div>
   );
 };
