@@ -1,0 +1,95 @@
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
+import OfferCard from './OfferCard'; // Import the reusable OfferCard component
+
+const CategoryPage = () => {
+  const { categoryName } = useParams();
+
+  const formatCategoryName = (name) => {
+    if (!name) return 'Category';
+    return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  };
+
+  const formattedCategoryName = formatCategoryName(categoryName);
+
+  // Dummy data for offers on a category page (replace with real data later)
+  const categoryOffers = [
+    { storeLogo: '', offerText: 'New Customers - 10% off your first order', endDate: 'Valid Until 2025', showCode: true, offerValue: 'FIRST10', tags: ['Verified', 'Exclusive'] },
+    { storeLogo: '', offerText: 'Exclusive! - 11% off sitewide', endDate: 'Valid Until 2025', showCode: true, offerValue: 'SITE11', tags: ['Verified', 'Featured'] },
+    { storeLogo: '', offerText: 'Free Shipping when you spend $75+ with Shop Now!', endDate: 'Some restrictions apply', showCode: false, tags: ['Verified'] },
+    { storeLogo: '', offerText: 'Free Shipping on Orders $49+', endDate: 'Valid Until 2025', showCode: true, offerValue: 'SHIPFREE', tags: ['Verified', 'Exclusive'] },
+    { storeLogo: '', offerText: '$5 OFF $25+ Order with Email Sign Up', endDate: 'Valid Until 2025', showCode: false, tags: ['Verified'] },
+    { storeLogo: '', offerText: 'Free Shipping on All Orders $45+', endDate: 'Valid Until 2025', showCode: false, tags: ['Verified', 'Exclusive'] },
+    { storeLogo: '', offerText: 'Free Shipping on $75+ order', endDate: 'Valid Until 2025', showCode: false, tags: ['Verified'] },
+    { storeLogo: '', offerText: 'Free Shipping on $29+ order', endDate: 'Valid Until 2025', showCode: false, tags: ['Verified', 'Exclusive'] },
+  ];
+
+  return (
+    <div className="bg-gray-100 pb-8"> {/* Overall light gray background */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Breadcrumbs */}
+        <nav className="text-sm text-gray-600 mb-6">
+          <Link to="/" className="hover:underline">Home</Link> &gt;
+          <Link to="#" className="hover:underline ml-1">Home & Garden</Link> &gt;
+          <span className="ml-1 font-semibold">{formattedCategoryName}</span>
+        </nav>
+
+        {/* Category Header */}
+        <div className="flex items-center space-x-4 mb-8">
+          <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-gray-600">
+            {/* Category Icon/Image Placeholder */}
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2H7a2 2 0 00-2 2v2m7-7V3"></path></svg>
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">
+              DISCOUNT CODES AND VOUCHERS FOR {formattedCategoryName.toUpperCase()}
+            </h1>
+            <p className="text-gray-600 mt-2">
+              We have 564 live discount codes & deals in {formattedCategoryName}.
+            </p>
+          </div>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column: Offer Cards */}
+          {/* Adjusted border to match image dotted border */}
+          <div className="lg:col-span-2 border-r border-dotted border-gray-400 pr-8">
+            {categoryOffers.map((offer, index) => (
+              <OfferCard key={index} {...offer} />
+            ))}
+          </div>
+
+          {/* Right Column: Sidebar */}
+          <div className="lg:col-span-1 pl-8 space-y-8">
+            {/* Category Description (adjusted background color) */}
+            <div className="bg-gray-300 p-6 rounded-lg shadow-md mb-8">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Category Description</h3>
+              <p className="text-gray-700 text-sm">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+
+            {/* Popular Categories (adjusted background color) */}
+            <div className="bg-gray-300 p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Popular Categories</h3>
+              <ul className="space-y-3">
+                {[...Array(5)].map((_, i) => (
+                  <li key={i} className="text-gray-700 hover:text-blue-600 cursor-pointer">Another Category {i + 1}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Affiliate Line (consistent with Home Page) */}
+        <div className="bg-gray-300 p-6 rounded-lg shadow-md flex items-center justify-center text-gray-700 text-xl font-semibold my-8 w-full h-32">
+          Affiliate Line
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default CategoryPage;
