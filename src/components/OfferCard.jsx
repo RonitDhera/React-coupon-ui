@@ -1,5 +1,5 @@
 // src/components/OfferCard.jsx
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
 const OfferCard = ({
@@ -7,7 +7,7 @@ const OfferCard = ({
   offerText,
   endDate,
   showCode,
-  offerValue,
+  offerValue, // offerValue will be either the code or the URL
   isExpired,
   tags = []
 }) => {
@@ -32,18 +32,36 @@ const OfferCard = ({
     setShowTermsMessage(prev => !prev);
   };
 
+  const handleOfferButtonClick = () => {
+    if (!isExpired) {
+      // Always open google.com in a new tab when the main button is clicked
+      window.open('https://www.google.com', '_blank'); 
+      
+      // Always open the modal after opening the Google link
+      setIsModalOpen(true); 
+    }
+  };
+
+  // --- NEW FUNCTION TO CLOSE MODAL ON BACKDROP CLICK ---
+  const handleBackdropClick = (e) => {
+    // Only close if the click originated directly on the backdrop, not on the modal content itself
+    if (e.target.classList.contains('bg-opacity-60')) { // Targeting the specific backdrop class
+      setIsModalOpen(false);
+    }
+  };
+  // --------------------------------------------------------
+
   const buttonText = showCode ? 'Show Code' : 'Get Offer';
   const buttonBgColor = isExpired ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600';
   const buttonTextColor = 'text-white';
 
-  const storeName = "The Body Shop";
+  const storeName = "The Body Shop"; // This can be passed as a prop too
   const defaultStoreLogo = "https://via.placeholder.com/100x100?text=Store+Logo";
   const defaultStoreImage = "https://via.placeholder.com/150x150?text=Brand+Image";
 
-  const getPartialCode = () => {
-    // Show first 3 chars if available, else '---'
+  const getPartialCode = useCallback(() => {
     return showCode && offerValue ? offerValue.substring(0, 3).toUpperCase() : '---';
-  };
+  }, [showCode, offerValue]);
 
   const getTagStyle = (tag) => {
     switch (tag.toLowerCase()) {
@@ -58,16 +76,21 @@ const OfferCard = ({
     }
   };
 
+  // Determine if a tag should blink
+  const shouldBlink = (tag) => {
+    return tag.toLowerCase() === 'verified' || tag.toLowerCase() === 'exclusive';
+  };
+
   return (
     <div className={`relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex mb-6 overflow-hidden ${isExpired ? 'opacity-70 grayscale' : ''}`}>
       {/* Left Section: Logo & Text */}
       <div className="flex-shrink-0 w-1/4 p-4 flex flex-col items-center justify-center border-r border-gray-100 bg-gray-50">
         <div className="w-24 h-24 bg-white flex items-center justify-center rounded-full overflow-hidden shadow-inner mb-2">
-        <img
-  src={storeLogo || defaultStoreLogo} // Use defaultStoreLogo if storeLogo is not provided
-  alt="Store Logo"
-  className="w-full h-full object-contain p-2"
-/>
+          <img
+            src={storeLogo || defaultStoreLogo}
+            alt="Store Logo"
+            className="w-full h-full object-contain p-2"
+          />
         </div>
         <p className="text-center text-sm font-semibold text-gray-700 mt-1">{storeName}</p>
       </div>
@@ -80,7 +103,10 @@ const OfferCard = ({
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {tags.map((tag, index) => (
-            <span key={index} className={`px-3 py-1 text-xs rounded-full ${getTagStyle(tag)}`}>
+            <span
+              key={index}
+              className={`px-3 py-1 text-xs rounded-full ${getTagStyle(tag)} ${shouldBlink(tag) ? 'animate-pulse' : ''}`}
+            >
               {tag}
             </span>
           ))}
@@ -88,76 +114,68 @@ const OfferCard = ({
       </div>
 
       {/* Right Section: Button & Terms */}
-      <div className="relative flex-shrink-0 w-1/4 flex flex-col items-center justify-center p-4">
+      <div className="relative flex-shrink-0 w-1/4 flex flex-col items-center justify-center p-2 sm:p-4">
         {showCode ? (
-          // Container for the button and the sliding code part (no border-radius on this container)
+          // Container for the button and the sliding code part
           <div
-            className={`relative w-[160px] h-[45px] overflow-hidden group // Added group back
-                        ${isExpired ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+            className={`relative w-full max-w-[160px] h-[45px] overflow-hidden group
+              ${isExpired ? 'cursor-not-allowed' : 'cursor-pointer'}`}
             onMouseEnter={() => !isExpired && setIsHovered(true)}
             onMouseLeave={() => !isExpired && setIsHovered(false)}
-            onClick={() => {
-              if (!isExpired) {
-                setIsModalOpen(true);
-              }
-            }}
+            onClick={handleOfferButtonClick} // This will now always open Google and the modal
           >
-            {/* The Main "Show Code" Button that slides (no border-radius) */}
+            {/* The Main "Show Code" Button that slides */}
             <button
-              type="button" // Important for semantic HTML, especially when a div acts as the overall click target
+              type="button"
               disabled={isExpired}
-              className={`absolute inset-0 w-full h-full // Occupy full space
-                          ${buttonBgColor} ${buttonTextColor} font-extrabold
-                          flex items-center justify-center
-                          transition-transform duration-300 ease-in-out
-                          ${isHovered && !isExpired ? '-translate-x-[60px]' : 'translate-x-0'} // Slides left
-                          ${isExpired ? 'opacity-60' : ''}
-                          z-20 // On top initially
-                          `}
+              className={`absolute inset-0 w-full h-full
+                ${buttonBgColor} ${buttonTextColor} font-extrabold rounded-md
+                flex items-center justify-center
+                transition-transform duration-300 ease-in-out
+                ${isHovered && !isExpired ? '-translate-x-[60px]' : 'translate-x-0'}
+                ${isExpired ? 'opacity-60' : ''}
+                z-20
+                `}
             >
               <span className="uppercase text-center text-sm tracking-wider px-2 whitespace-nowrap">
                 {buttonText}
               </span>
             </button>
 
-            {/* The Scratched Code Part that slides in from the right (no border-radius) */}
+            {/* The Scratched Code Part that slides in from the right */}
             <div
-              className={`absolute top-0 right-0 h-full w-[60px] // Fixed width for the scratch part
-                          bg-gray-200 text-gray-700 font-extrabold
-                          flex items-center justify-center text-lg
-                          transition-transform duration-300 ease-in-out
-                          ${isHovered && !isExpired ? 'translate-x-0' : 'translate-x-full'} // Slides in from right (initially hidden)
-                          ${isExpired ? 'translate-x-0 opacity-100' : ''} // If expired, always visible and not interactive
-                          z-10 // Behind the button initially
-                          `}
+              className={`absolute top-0 right-0 h-full w-[60px]
+                bg-gray-200 text-gray-700 font-extrabold rounded-r-md
+                flex items-center justify-center text-lg
+                transition-transform duration-300 ease-in-out
+                ${isHovered && !isExpired ? 'translate-x-0' : 'translate-x-full'}
+                ${isExpired ? 'translate-x-0 opacity-100' : ''}
+                z-10
+                `}
             >
               <span className="whitespace-nowrap">{getPartialCode()}</span>
             </div>
 
-            {/* Vertical Dashed Separator (positioned relative to the container) */}
+            {/* Vertical Dashed Separator */}
             <div
-              className={`absolute right-[60px] top-0 h-full w-px 
-                          bg-white bg-opacity-70 border-r border-dashed border-white
-                          transition-opacity duration-300 ease-in-out
-                          ${isHovered && !isExpired ? 'opacity-100' : 'opacity-0'} // Only show on hover
-                          ${isExpired ? 'opacity-100' : ''} // If expired, always visible
-                          z-30 // On top of both parts
-                          `}
+              className={`absolute right-[60px] top-0 h-full w-px
+                bg-white bg-opacity-70 border-r border-dashed border-white
+                transition-opacity duration-300 ease-in-out
+                ${isHovered && !isExpired ? 'opacity-100' : 'opacity-0'}
+                ${isExpired ? 'opacity-100' : ''}
+                z-30
+                `}
             ></div>
 
           </div>
         ) : (
-          // Regular "Get Offer" button (keep its original styles for consistency)
+          // Regular "Get Offer" button
           <button
-            onClick={() => {
-              if (!isExpired) {
-                setIsModalOpen(true);
-              }
-            }}
-            className={`relative ${buttonBgColor} ${buttonTextColor} font-extrabold py-3 px-6  transition-colors duration-200
-                        ${isExpired ? 'opacity-60' : ''}`}
+            onClick={handleOfferButtonClick} // This will now always open Google and the modal
+            className={`relative ${buttonBgColor} ${buttonTextColor} font-extrabold py-3 px-6 rounded-md transition-colors duration-200
+              ${isExpired ? 'opacity-60' : ''} w-full max-w-[160px]
+              `}
             disabled={isExpired}
-            style={{ minWidth: '140px' }}
           >
             {buttonText}
           </button>
@@ -165,24 +183,27 @@ const OfferCard = ({
 
         {/* View Terms & Conditions with inline message */}
         <div className="mt-4 text-center w-full">
-            <button
+          <button
             onClick={handleViewTermsClick}
             className="text-xs text-blue-600 underline cursor-pointer hover:text-blue-800 flex items-center justify-center mx-auto"
-            >
+          >
             View Terms & Conditions
             <ChevronDownIcon className={`ml-1 w-3 h-3 transition-transform duration-200 ${showTermsMessage ? 'rotate-180' : ''}`} />
-            </button>
-            {showTermsMessage && (
+          </button>
+          {showTermsMessage && (
             <p className="text-xs text-gray-500 mt-1 italic transition-opacity duration-300 ease-in-out">
-                Terms & conditions apply.
+              Terms & conditions apply.
             </p>
-            )}
+          )}
         </div>
       </div>
 
-      {/* Modal - No changes here relevant to the current request */}
+      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
+          onClick={handleBackdropClick}
+        >
           <div className="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full animate-scaleIn">
             <div className="flex justify-between items-center mb-6 border-b pb-4">
               <h2 className="text-2xl font-bold text-gray-800">Offer Details</h2>
@@ -196,7 +217,7 @@ const OfferCard = ({
 
             <div className="flex flex-col items-center mb-6">
               <img src={storeLogo || defaultStoreImage} alt={storeName} className="w-24 h-24 rounded-full mb-4 border-2 border-gray-200 shadow-sm" />
-              <h3 className="text-2xl font-semibold text-gray-900 mb-1">{storeName}</h3>
+              <h3 className="2xl font-semibold text-gray-900 mb-1">{storeName}</h3>
               <p className="text-gray-700 text-center text-lg leading-snug">{offerText}</p>
             </div>
 
@@ -220,9 +241,8 @@ const OfferCard = ({
                     {copyStatus || 'Copy Code'}
                   </button>
                 </div>
-                {/* {copyStatus && <p className="text-sm text-green-700 mt-2 text-right">{copyStatus}</p>} */}
                 <p className="text-xs text-gray-500 mt-3 text-center">
-                    Click "Copy Code" and paste it at checkout.
+                  Click "Copy Code" and paste it at checkout.
                 </p>
               </div>
             ) : (
@@ -230,12 +250,13 @@ const OfferCard = ({
                 <p className="mt-4 text-gray-700 text-center text-base">
                   Click the button below to go to the store and get this offer!
                 </p>
+                {/* This button inside the modal also directs to Google.com */}
                 <a
-                  href={offerValue}
+                  href="https://www.google.com" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-6 block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => setIsModalOpen(false)} // Close modal on click
                 >
                   Go to Offer Page
                 </a>
@@ -243,14 +264,14 @@ const OfferCard = ({
             )}
 
             <div className="mt-6 pt-4 border-t border-gray-200 text-gray-600 text-sm">
-                <p className="font-semibold mb-2">Full Terms & Conditions:</p>
-                <ul className="list-disc list-inside text-xs space-y-1">
-                    <li>Offer valid until {endDate}.</li>
-                    <li>Limited to one use per customer.</li>
-                    <li>Cannot be combined with other promotions.</li>
-                    <li>Applicable to online purchases only.</li>
-                    <li>See store for more details.</li>
-                </ul>
+              <p className="font-semibold mb-2">Full Terms & Conditions:</p>
+              <ul className="list-disc list-inside text-xs space-y-1">
+                <li>Offer valid until {endDate}.</li>
+                <li>Limited to one use per customer.</li>
+                <li>Cannot be combined with other promotions.</li>
+                <li>Applicable to online purchases only.</li>
+                <li>See store for more details.</li>
+              </ul>
             </div>
           </div>
         </div>

@@ -1,58 +1,158 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import React, { useState, useEffect, useRef } from 'react'; // Import useState, useEffect, and useRef
+import { Link } from 'react-router-dom';
+import { UserIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const Header = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchInputRef = useRef(null); // Ref for the search input
+  const searchDropdownRef = useRef(null); // Ref for the dropdown
+
+  // Dummy data for search results (replace with actual data/API call)
+  const allDummyResults = [
+    { id: 1, name: 'The Body Shop', type: 'Store', link: '/store/the-body-shop' },
+    { id: 2, name: 'Free Shipping Offer', type: 'Offer', link: '/offer/free-shipping' },
+    { id: 3, name: 'Electronics Category', type: 'Category', link: '/category/electronics' },
+    { id: 4, name: 'Fashion Deals', type: 'Offer', link: '/offer/fashion-deals' },
+    { id: 5, name: 'Home & Garden Store', type: 'Store', link: '/store/home-garden' },
+    { id: 6, name: 'Discount Codes for XYZ', type: 'Offer', link: '/offer/xyz-discount' },
+    { id: 7, name: 'Travel Vouchers', type: 'Offer', link: '/offer/travel-vouchers' },
+    { id: 8, name: 'Beauty Products Sale', type: 'Offer', link: '/offer/beauty-sale' },
+  ];
+
+  useEffect(() => {
+    if (searchTerm.length > 1) { // Start searching after 1 character
+      const filtered = allDummyResults.filter(item =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchResults(filtered);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchTerm]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchInputRef.current && !searchInputRef.current.contains(event.target) &&
+        searchDropdownRef.current && !searchDropdownRef.current.contains(event.target)
+      ) {
+        setIsSearchFocused(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleFocus = () => {
+    setIsSearchFocused(true);
+  };
+
+  const handleBlur = (e) => {
+    // Only unfocus if clicking outside the input AND the dropdown
+    // This is handled by the useEffect for handleClickOutside now, but keeping this for robustness
+    if (!searchDropdownRef.current || !searchDropdownRef.current.contains(e.relatedTarget)) {
+      // setIsSearchFocused(false); // Let useEffect handle this to avoid flicker
+    }
+  };
+
   return (
-    <header className="bg-white shadow-md py-4">
+    <header className="bg-white shadow-lg py-4 border-b border-gray-100">
       <div className="container mx-auto px-4">
         {/* Top Row: SIGNIN, LOGO, Search Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-0">
-          {/* Left: SIGNIN */}
-          <div className="order-2 sm:order-1 mt-4 sm:mt-0">
-            <Link to="/signin" className="text-gray-600 hover:text-gray-900 font-semibold text-sm">SIGNIN</Link>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-y-4">
+
+          {/* Left: SIGNIN with User Icon */}
+          <div className="order-2 sm:order-1 flex items-center space-x-2">
+            <UserIcon className="h-5 w-5 text-gray-500" />
+            <Link to="/signin" className="text-gray-700 hover:text-blue-600 font-medium text-sm whitespace-nowrap transition-colors duration-200">SIGNIN</Link>
           </div>
 
-          {/* Center: LOGO (adjusted size) */}
+          {/* Center: LOGO */}
           <div className="order-1 sm:order-2">
-            <Link to="/" className="w-32 h-16 bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-lg">
-              LOGO
+            <Link to="/" className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold text-2xl tracking-wide uppercase rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+              MYLOGO
             </Link>
           </div>
 
-          {/* Right: Search Bar */}
-          <div className="order-3 sm:order-3 mt-4 sm:mt-0">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="search bar"
-                className="w-40 h-8 bg-black text-white px-3 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              {/* Search icon placeholder (optional) */}
-              {/* <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg> */}
-            </div>
+          {/* Right: Search Bar with Dropdown */}
+          <div className="w-full sm:w-auto relative order-3">
+            <input
+              ref={searchInputRef} // Attach ref
+              type="text"
+              placeholder="Search for offers..."
+              className="w-full sm:w-64 md:w-80 h-10 bg-gray-50 text-gray-800 px-3 pl-10 text-sm rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+
+            {/* Search Results Dropdown */}
+            {isSearchFocused && searchTerm.length > 0 && searchResults.length > 0 && (
+              <div
+                ref={searchDropdownRef} // Attach ref
+                className="absolute top-full left-0 mt-2 w-full sm:w-64 md:w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fadeInDown"
+              >
+                <ul className="py-2">
+                  {searchResults.map((result) => (
+                    <li key={result.id}>
+                      <Link
+                        to={result.link}
+                        className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm"
+                        onClick={() => {
+                          setSearchTerm(''); // Clear search on click
+                          setSearchResults([]);
+                          setIsSearchFocused(false); // Close dropdown
+                        }}
+                      >
+                        <span>{result.name}</span>
+                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{result.type}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {isSearchFocused && searchTerm.length > 0 && searchResults.length === 0 && (
+                <div
+                    ref={searchDropdownRef}
+                    className="absolute top-full left-0 mt-2 w-full sm:w-64 md:w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-4 text-center text-gray-500 text-sm animate-fadeInDown"
+                >
+                    No results found for "{searchTerm}"
+                </div>
+            )}
           </div>
         </div>
 
         {/* Separator line with "Categories" text */}
-        <div className="relative flex items-center py-4 my-4">
-          <div className="flex-grow border-t border-dotted border-gray-400"></div>
-          <span className="flex-shrink mx-4 text-gray-600 font-semibold text-sm">Categories</span>
-          <div className="flex-grow border-t border-dotted border-gray-400"></div>
+        <div className="relative py-4 my-6 text-center">
+          <h2 className="text-xl font-bold text-gray-800">Explore Categories</h2>
+          <p className="text-sm text-gray-500">Find the best deals by category</p>
         </div>
 
-        {/* Categories Navigation */}
-        <nav className="w-full">
-          <ul className="flex flex-wrap justify-center sm:justify-between gap-x-6 gap-y-2 text-gray-600 font-semibold text-sm">
-            {/* Using Link for actual navigation to category pages */}
-            <li><Link to="/category/Electronics" className="hover:text-gray-900 whitespace-nowrap">Electronics</Link></li>
-            <li><Link to="/category/Fashion" className="hover:text-gray-900 whitespace-nowrap">Fashion</Link></li>
-            <li><Link to="/category/Home-and-Garden" className="hover:text-gray-900 whitespace-nowrap">Home & Garden</Link></li>
-            <li><Link to="/category/Food-and-Drink" className="hover:text-gray-900 whitespace-nowrap">Food & Drink</Link></li>
-            <li><Link to="/category/Travel" className="hover:text-gray-900 whitespace-nowrap">Travel</Link></li>
-            <li><Link to="/category/Health" className="hover:text-gray-900 whitespace-nowrap">Health</Link></li>
-            {/* Added more categories based on your header image's links */}
-            <li><Link to="/category/Kitchen-and-Kitchenware" className="hover:text-gray-900 whitespace-nowrap">Kitchen & Kitchenware</Link></li>
-            <li><Link to="/category/Beauty" className="hover:text-gray-900 whitespace-nowrap">Beauty</Link></li>
+        {/* Categories Navigation - Horizontally scrollable on small screens */}
+        <nav className="w-full overflow-x-auto custom-scrollbar pb-2">
+          <ul className="flex justify-start sm:justify-center lg:justify-between gap-x-4 sm:gap-x-6 text-gray-700 font-medium text-sm">
+            <li><Link to="/category/Electronics" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Electronics</Link></li>
+            <li><Link to="/category/Fashion" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Fashion</Link></li>
+            <li><Link to="/category/Home-and-Garden" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Home & Garden</Link></li>
+            <li><Link to="/category/Food-and-Drink" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Food & Drink</Link></li>
+            <li><Link to="/category/Travel" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Travel</Link></li>
+            <li><Link to="/category/Health" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Health</Link></li>
+            <li><Link to="/category/Kitchen-and-Kitchenware" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Kitchen & Kitchenware</Link></li>
+            <li><Link to="/category/Beauty" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Beauty</Link></li>
           </ul>
         </nav>
       </div>
