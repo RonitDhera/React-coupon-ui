@@ -65,7 +65,7 @@ const HomePage = () => {
     <div className="bg-gray-100 pb-8">
       {/* Banners Slider Section START */}
       {/* Increased height classes for the carousel container */}
-      <div className="w-full h-80 sm:h-96 md:h-xl lg:h-2xl xl:h-3xl overflow-hidden relative mb-8">
+      <div className="w-full h-80 sm:h-96 md:h-[400px] lg:h-[500px] xl:h-[600px] overflow-hidden relative mb-8">
         <div
           className="carousel-container h-full flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -147,24 +147,24 @@ const HomePage = () => {
           {/* Right Column: Popular Sections */}
           <div className="lg:col-span-1 space-y-8 mt-8 lg:mt-0">
             {/* Popular Stores */}
-            <div className="bg-gray-300 p-6 rounded-lg shadow-md">
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
               <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Popular Stores</h3>
               <ul className="space-y-3">
                 {[...Array(5)].map((_, i) => (
                   <li key={i} className="text-gray-700 hover:text-blue-600 cursor-pointer text-sm">
-                    <Link to={`/store/StoreName${i + 1}`}>Store Name {i + 1}</Link>
+                    <Link to={`/store/store-name-${i + 1}`}>Store Name {i + 1}</Link> {/* Changed to kebab-case for URL consistency */}
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* Popular Categories */}
-            <div className="bg-gray-300 p-6 rounded-lg shadow-md">
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
               <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Popular Categories</h3>
               <ul className="space-y-3">
                 {[...Array(5)].map((_, i) => (
                   <li key={i} className="text-gray-700 hover:text-blue-600 cursor-pointer text-sm">
-                    <Link to={`/category/CategoryName${i + 1}`}>Category Name {i + 1}</Link>
+                    <Link to={`/category/category-name-${i + 1}`}>Category Name {i + 1}</Link> {/* Changed to kebab-case for URL consistency */}
                   </li>
                 ))}
               </ul>
@@ -173,8 +173,10 @@ const HomePage = () => {
         </div>
 
         {/* Website Descriptions Section */}
-        <div className="bg-gray-300 p-6 sm:p-8 rounded-lg shadow-md flex items-center justify-center text-gray-700 text-lg sm:text-xl font-semibold my-8 w-full min-h-[10rem]">
-          WEBSITE DESCRIPTIONS
+        <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md my-8 w-full min-h-[8rem] border border-gray-200">
+          <p className="text-center text-gray-700 text-base leading-relaxed">
+            Welcome to [Your Website Name]! Your ultimate destination for discovering the best deals, coupons, and discounts across a wide range of stores and categories. We work tirelessly to bring you verified offers, ensuring you save money on your favorite brands. Start exploring today and make every purchase a smart one!
+          </p>
         </div>
 
         {/* Popular Posts From Our Blog Section - MODIFIED */}
@@ -184,11 +186,11 @@ const HomePage = () => {
             {[...Array(4)].map((_, i) => (
               <Link to={`/blog/post/${i + 1}`} key={i} className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 block"> {/* Wrapped with Link */}
                 <div className="w-full h-32 bg-gray-300 flex items-center justify-center text-gray-700 text-sm">
-                  <img src={`https://picsum.photos/1200/320?random=${i + 1}`} alt={`Blog Post ${i + 1}`} className="w-full h-full object-cover" /> {/* Added placeholder image */}
+                  <img src={`https://picsum.photos/300/150?random=${i + 10}`} alt={`Blog Post ${i + 1}`} className="w-full h-full object-cover" /> {/* Added placeholder image and new random seed */}
                 </div>
                 <div className="p-4">
                   <p className="text-base font-semibold text-gray-800 mb-2">Blog Post Title {i + 1}</p>
-                  <p className="text-xs text-gray-600">Short description of the blog post content.</p>
+                  <p className="text-xs text-gray-600">Short description of the blog post content. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
               </Link>
             ))}
@@ -196,8 +198,10 @@ const HomePage = () => {
         </div>
 
         {/* Affiliate Line */}
-        <div className="bg-gray-300 p-6 sm:p-8 rounded-lg shadow-md flex items-center justify-center text-gray-700 text-lg sm:text-xl font-semibold my-8 w-full min-h-[8rem]">
-          Affiliate Line
+        <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md my-8 w-full min-h-[8rem] border border-gray-200">
+          <p className="text-center text-gray-700 text-base leading-relaxed">
+            As an affiliate partner, we may earn a commission from qualifying purchases made through links on our site. This helps support our work and allows us to continue providing you with the best deals and coupons. Thank you for your support!
+          </p>
         </div>
       </div>
     </div>

@@ -61,24 +61,23 @@ const CategoryPage = () => {
             ))}
           </div>
 
-          {/* Right Column: Sidebar */}
-          {/* pl-8 removed on small/medium screens */}
-          <div className="lg:col-span-1 lg:pl-8 space-y-8 mt-8 lg:mt-0"> {/* Added mt-8 for spacing when stacked */}
+           {/* Right Column: Sidebar */}
+          <div className="lg:col-span-1 p-4 lg:pl-8 space-y-8 mt-8 lg:mt-0"> {/* Added padding, mt-8 for spacing when stacked */}
             {/* Category Description */}
-            <div className="bg-gray-300 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Category Description</h3>
-              <p className="text-gray-700 text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">About {formattedCategoryName} Category</h3>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                Explore the best deals and discount codes in the **{formattedCategoryName}** category. Whether you're looking for home decor, gardening tools, or outdoor essentials, find verified vouchers and promotional offers from leading brands. Our team constantly updates this section to ensure you have access to the freshest and most reliable discounts. Save big on everything for your home and garden!
               </p>
             </div>
 
-            {/* Popular Categories */}
-            <div className="bg-gray-300 p-6 rounded-lg shadow-md">
+          {/* Popular Categories */}
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-4">Popular Categories</h3>
               <ul className="space-y-3">
                 {[...Array(5)].map((_, i) => (
-                  <li key={i} className="text-gray-700 hover:text-blue-600 cursor-pointer">
-                    <Link to={`/category/another-category-${i + 1}`}>Another Category {i + 1}</Link>
+                  <li key={i} className="text-gray-700 hover:text-blue-600 cursor-pointer text-sm">
+                    <Link to={`/category/popular-category-${i + 1}`}>Popular Category {i + 1}</Link> {/* Changed to kebab-case */}
                   </li>
                 ))}
               </ul>
@@ -86,9 +85,11 @@ const CategoryPage = () => {
           </div>
         </div>
 
-        {/* Affiliate Line (consistent with Home Page) */}
-        <div className="bg-gray-300 p-6 rounded-lg shadow-md flex items-center justify-center text-gray-700 text-xl font-semibold my-8 w-full h-32 text-center">
-          Affiliate Line
+      {/* Affiliate Line (consistent with Home Page) */}
+        <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md my-8 w-full min-h-[8rem] flex items-center justify-center border border-gray-200">
+          <p className="text-center text-gray-700 text-base leading-relaxed">
+            As an affiliate partner, we may earn a commission from qualifying purchases made through links on our site. This helps support our work and allows us to continue providing you with the best deals and coupons. Thank you for your support!
+          </p>
         </div>
 
       </div>
