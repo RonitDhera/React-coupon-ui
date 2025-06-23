@@ -9,16 +9,7 @@ const Header = () => {
   const searchInputRef = useRef(null);
   const searchDropdownRef = useRef(null);
 
-  const allDummyResults = [
-    { id: 1, name: 'The Body Shop', type: 'Store', link: '/store/the-body-shop' },
-    { id: 2, name: 'Free Shipping Offer', type: 'Offer', link: '/offer/free-shipping' },
-    { id: 3, name: 'Electronics Category', type: 'Category', link: '/category/electronics' },
-    { id: 4, name: 'Fashion Deals', type: 'Offer', link: '/offer/fashion-deals' },
-    { id: 5, name: 'Home & Garden Store', type: 'Store', link: '/store/home-garden' },
-    { id: 6, name: 'Discount Codes for XYZ', type: 'Offer', link: '/offer/xyz-discount' },
-    { id: 7, name: 'Travel Vouchers', type: 'Offer', link: '/offer/travel-vouchers' },
-    { id: 8, name: 'Beauty Products Sale', type: 'Offer', link: '/offer/beauty-sale' },
-  ];
+  const allDummyResults = []; 
 
   useEffect(() => {
     if (searchTerm.length > 1) {
@@ -55,99 +46,119 @@ const Header = () => {
     setIsSearchFocused(true);
   };
 
-  // RESOLVED: Removed the 'e' parameter as it was unused
   const handleBlur = () => {
     // The handleClickOutside useEffect handles this more robustly
   };
 
   return (
-    <header className="bg-white shadow-lg py-4 border-b border-gray-100">
-      <div className="container mx-auto px-4">
-        {/* Top Row: SIGNIN and Search Bar (now always on sides) */}
+    // Header background white, border light gray using CSS variables
+    <header className="shadow-md py-3 font-sans" style={{ backgroundColor: 'var(--header-bg)', borderBottom: '1px solid var(--border-light)' }}>
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        {/* Top Row: Logo, Search Bar, and Sign In */}
         <div className="flex items-center justify-between gap-x-4 mb-4">
-          {/* Left: SIGNIN with User Icon */}
-          <div className="flex items-center space-x-2">
-            <UserIcon className="h-5 w-5 text-gray-500" />
-            <Link to="/signin" className="text-gray-700 hover:text-blue-600 font-medium text-sm whitespace-nowrap transition-colors duration-200">SIGNIN</Link>
-          </div>
-
-          {/* Right: Search Bar with Dropdown */}
-          <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md">
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Search for offers..."
-              className="w-full h-10 bg-gray-50 text-gray-800 px-3 pl-10 text-sm rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+          {/* Left: Random Placeholder Logo */}
+          <Link to="/" className="flex-shrink-0">
+            <img 
+              src="https://as2.ftcdn.net/jpg/05/38/48/03/1000_F_538480363_Xznvp7KB7dmeqRcsCsDB2XIrfNVHLWML.jpg" // Consider an orange/black themed logo
+              alt="Site Logo" 
+              className="h-10 w-auto" 
             />
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          </Link>
 
-            {/* Search Results Dropdown */}
-            {isSearchFocused && searchTerm.length > 0 && searchResults.length > 0 && (
-              <div
-                ref={searchDropdownRef}
-                className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fadeInDown"
+          {/* Right Section: Search Bar and SIGNIN */}
+          <div className="flex items-center gap-x-4 flex-grow justify-end">
+            {/* Search Bar with Dropdown */}
+            <div className="relative w-full max-w-xs md:max-w-md">
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search anything..."
+                // Using CSS variables for all colors, including the focus ring
+                className="w-full h-10 px-3 pl-10 text-sm rounded-full border focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300"
+                style={{
+                  backgroundColor: 'var(--search-input-bg)',
+                  color: 'var(--search-input-text)',
+                  borderColor: 'var(--search-input-border)',
+                  '--tw-ring-color': 'var(--search-input-focus-ring)', // Tailwind's internal variable for ring color
+                }}
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+              {/* Magnifying glass icon color */}
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--search-input-placeholder)' }} />
+
+              {/* Search Results Dropdown */}
+              {isSearchFocused && searchTerm.length > 0 && searchResults.length === 0 && (
+                <div
+                  ref={searchDropdownRef}
+                  className="absolute top-full left-0 mt-2 w-full border rounded-lg shadow-xl z-50 py-3 text-center text-sm animate-fadeInDown"
+                  style={{
+                    backgroundColor: 'var(--search-dropdown-bg)',
+                    borderColor: 'var(--search-dropdown-border)',
+                    color: 'var(--search-dropdown-text)'
+                  }}
+                >
+                  Type to search...
+                </div>
+              )}
+            </div>
+
+            {/* SIGNIN with User Icon */}
+            <div className="flex-shrink-0 flex items-center space-x-1">
+              {/* User icon color */}
+              <UserIcon className="h-5 w-5" style={{ color: 'var(--icon-default)' }} />
+              <Link
+                to="/signin"
+                className="font-medium text-sm whitespace-nowrap transition-colors duration-300"
+                // SIGNIN Link: Default black text, hover orange text
+                style={{ color: 'var(--text-default)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-default)'}
               >
-                <ul className="py-2">
-                  {searchResults.map((result) => (
-                    <li key={result.id}>
-                      <Link
-                        to={result.link}
-                        className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm"
-                        onClick={() => {
-                          setSearchTerm('');
-                          setSearchResults([]);
-                          setIsSearchFocused(false);
-                        }}
-                      >
-                        <span>{result.name}</span>
-                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{result.type}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {isSearchFocused && searchTerm.length > 0 && searchResults.length === 0 && (
-              <div
-                ref={searchDropdownRef}
-                className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-4 text-center text-gray-500 text-sm animate-fadeInDown"
-              >
-                No results found for "{searchTerm}"
-              </div>
-            )}
+                SIGNIN
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Center Row: LOGO (now truly centered and above categories) */}
-        <div className="flex justify-center mb-6">
-          <Link to="/" className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-extrabold text-2xl tracking-wide uppercase rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-            MYLOGO
-          </Link>
+        {/* Categories Section */}
+        <div className="relative pt-4 pb-2 text-center mt-4" style={{ borderTop: '1px solid var(--border-light)' }}>
+          {/* Heading text color */}
+          <h2 className="text-xl font-bold mb-3" style={{ color: 'var(--heading-color)' }}>Explore Categories</h2>
+          {/* Categories Navigation */}
+          <nav className="w-full overflow-x-auto custom-scrollbar pb-2">
+            <ul className="flex justify-start sm:justify-center flex-wrap gap-2 sm:gap-3 text-sm font-medium">
+              {[
+                "Electronics", "Fashion", "Home & Garden", "Food & Drink",
+                "Travel", "Health", "Kitchen & Kitchenware", "Beauty"
+              ].map((category) => (
+                <li key={category}>
+                  <Link
+                    to={`/category/${category.replace(/ & /g, '-')}`}
+                    className="flex items-center px-3 py-1.5 rounded-full shadow-sm hover:shadow-md transition-all duration-300 whitespace-nowrap"
+                    // Category Buttons: Default white bg, black text. Hover orange bg, black text.
+                    style={{
+                      backgroundColor: 'var(--category-button-bg-default)',
+                      color: 'var(--category-button-text-default)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--category-button-bg-hover)';
+                      e.currentTarget.style.color = 'var(--category-button-text-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--category-button-bg-default)';
+                      e.currentTarget.style.color = 'var(--category-button-text-default)';
+                    }}
+                  >
+                    {category}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-
-        {/* Explore Categories Section (as it was) */}
-        <div className="relative py-4 my-6 text-center">
-          <h2 className="text-xl font-bold text-gray-800">Explore Categories</h2>
-          <p className="text-sm text-gray-500">Find the best deals by category</p>
-        </div>
-
-        {/* Categories Navigation */}
-        <nav className="w-full overflow-x-auto custom-scrollbar pb-2">
-          <ul className="flex justify-start sm:justify-center lg:justify-between gap-x-4 sm:gap-x-6 text-gray-700 font-medium text-sm">
-            <li><Link to="/category/Electronics" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Electronics</Link></li>
-            <li><Link to="/category/Fashion" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Fashion</Link></li>
-            <li><Link to="/category/Home-and-Garden" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Home & Garden</Link></li>
-            <li><Link to="/category/Food-and-Drink" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Food & Drink</Link></li>
-            <li><Link to="/category/Travel" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Travel</Link></li>
-            <li><Link to="/category/Health" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Health</Link></li>
-            <li><Link to="/category/Kitchen-and-Kitchenware" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Kitchen & Kitchenware</Link></li>
-            <li><Link to="/category/Beauty" className="hover:text-blue-600 whitespace-nowrap px-3 py-2 rounded-md transition-colors duration-200 block bg-gray-50 hover:bg-gray-100">Beauty</Link></li>
-          </ul>
-        </nav>
       </div>
     </header>
   );
