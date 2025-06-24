@@ -1,12 +1,12 @@
 // src/components/SingleBlogPage.jsx
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React from "react";
+import { useParams, Link } from "react-router-dom";
 
 const dummyPosts = [
   {
-    id: '1',
-    title: 'Top 10 Ways to Save on Groceries in 2025',
-    imageUrl: 'https://picsum.photos/id/1015/800/450',
+    id: "1",
+    title: "Top 10 Ways to Save on Groceries in 2025",
+    imageUrl: "https://picsum.photos/id/1015/800/450",
     content: `
       <p class="mb-4" style="color: var(--text-default);">Saving money on groceries is a goal for many households, and with a few smart strategies, you can significantly reduce your weekly or monthly food budget without sacrificing quality or nutrition. Here are our top 10 tested ways to save:</p>
 
@@ -42,30 +42,30 @@ const dummyPosts = [
 
       <p class="mb-4" style="color: var(--text-default);">By implementing these strategies, you'll be well on your way to becoming a grocery-saving expert! Happy shopping!</p>
     `,
-    date: 'June 20, 2025',
-    author: 'Admin',
-    category: 'Shopping Tips',
-    tags: ['Groceries', 'Saving', 'Budgeting', 'Food', 'Tips'],
+    date: "June 20, 2025",
+    author: "Admin",
+    category: "Shopping Tips",
+    tags: ["Groceries", "Saving", "Budgeting", "Food", "Tips"],
   },
   {
-    id: '2',
-    title: 'Seasonal Sales You Cannot Miss This Summer',
-    imageUrl: 'https://picsum.photos/id/1016/800/450',
+    id: "2",
+    title: "Seasonal Sales You Cannot Miss This Summer",
+    imageUrl: "https://picsum.photos/id/1016/800/450",
     content: `<p style="color: var(--text-default);">Content for seasonal sales...</p>`,
-    date: 'June 15, 2025',
-    author: 'Admin',
-    category: 'Sales & Deals',
-    tags: ['Sales', 'Summer', 'Deals'],
+    date: "June 15, 2025",
+    author: "Admin",
+    category: "Sales & Deals",
+    tags: ["Sales", "Summer", "Deals"],
   },
   {
-    id: '3',
-    title: 'Decoding Coupon Terms & Conditions: A Simple Guide',
-    imageUrl: 'https://picsum.photos/id/1018/800/450',
+    id: "3",
+    title: "Decoding Coupon Terms & Conditions: A Simple Guide",
+    imageUrl: "https://picsum.photos/id/1018/800/450",
     content: `<p style="color: var(--text-default);">Content for coupon terms...</p>`,
-    date: 'June 10, 2025',
-    author: 'Admin',
-    category: 'Coupon Guide',
-    tags: ['Coupons', 'Guide', 'Terms'],
+    date: "June 10, 2025",
+    author: "Admin",
+    category: "Coupon Guide",
+    tags: ["Coupons", "Guide", "Terms"],
   },
   // Add more dummy posts as needed for related posts
 ];
@@ -78,9 +78,12 @@ const SingleBlogPage = () => {
     return (
       <div
         className="pb-12 font-sans min-h-screen flex items-center justify-center"
-        style={{ backgroundColor: 'var(--page-bg)' }}
+        style={{ backgroundColor: "var(--page-bg)" }}
       >
-        <h2 className="text-2xl font-bold" style={{ color: 'var(--text-muted)' }}>
+        <h2
+          className="text-2xl font-bold"
+          style={{ color: "var(--text-muted)" }}
+        >
           Blog post not found!
         </h2>
       </div>
@@ -88,41 +91,69 @@ const SingleBlogPage = () => {
   }
 
   // Filter out the current post for "Related Posts"
-  const relatedPosts = dummyPosts.filter(p => p.category === post.category && p.id !== post.id).slice(0, 3);
+  const relatedPosts = dummyPosts
+    .filter((p) => p.category === post.category && p.id !== post.id)
+    .slice(0, 3);
   // If not enough related posts, just pick some others
   if (relatedPosts.length < 3) {
-    dummyPosts.filter(p => p.id !== post.id && !relatedPosts.some(rp => rp.id === p.id))
+    dummyPosts
+      .filter(
+        (p) => p.id !== post.id && !relatedPosts.some((rp) => rp.id === p.id)
+      )
       .slice(0, 3 - relatedPosts.length)
-      .forEach(p => relatedPosts.push(p));
+      .forEach((p) => relatedPosts.push(p));
   }
 
-
   return (
-    <div className="pb-12 font-sans" style={{ backgroundColor: 'var(--page-bg)' }}>
+    <div
+      className="pb-12 font-sans"
+      style={{ backgroundColor: "var(--page-bg)" }}
+    >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8">
         {/* Breadcrumbs */}
         <nav className="text-sm mb-6">
           <Link
             to="/"
             className="transition-colors duration-300"
-            style={{ color: 'var(--text-muted)' }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
+            style={{ color: "var(--text-muted)" }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.color = "var(--text-accent-hover)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "var(--text-muted)")
+            }
           >
             Home
           </Link>
-          <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
+          <span
+            className="mx-2"
+            style={{ color: "var(--breadcrumb-separator-color)" }}
+          >
+            &gt;
+          </span>
           <Link
             to="/blogs"
             className="transition-colors duration-300"
-            style={{ color: 'var(--text-muted)' }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
+            style={{ color: "var(--text-muted)" }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.color = "var(--text-accent-hover)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "var(--text-muted)")
+            }
           >
             Blogs
           </Link>
-          <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
-          <span className="font-semibold line-clamp-1" style={{ color: 'var(--main-heading-color)' }}>
+          <span
+            className="mx-2"
+            style={{ color: "var(--breadcrumb-separator-color)" }}
+          >
+            &gt;
+          </span>
+          <span
+            className="font-semibold line-clamp-1"
+            style={{ color: "var(--main-heading-color)" }}
+          >
             {post.title}
           </span>
         </nav>
@@ -131,48 +162,90 @@ const SingleBlogPage = () => {
           {/* Main Blog Content */}
           <div
             className="lg:col-span-2 p-6 sm:p-8 rounded-lg shadow-lg border"
-            style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+            style={{
+              backgroundColor: "var(--card-bg)",
+              borderColor: "var(--card-border)",
+            }}
           >
-            <h1 className="text-3xl sm:text-4xl font-extrabold mb-4 leading-tight" style={{ color: 'var(--main-heading-color)' }}>
+            <h1
+              className="text-3xl sm:text-4xl font-extrabold mb-4 leading-tight"
+              style={{ color: "var(--main-heading-color)" }}
+            >
               {post.title}
             </h1>
-            <div className="flex items-center text-sm mb-6 space-x-4" style={{ color: 'var(--text-muted)' }}>
-              <span>By <span className="font-semibold" style={{ color: 'var(--primary-orange)' }}>{post.author}</span></span>
+            <div
+              className="flex items-center text-sm mb-6 space-x-4"
+              style={{ color: "var(--text-muted)" }}
+            >
+              <span>
+                By{" "}
+                <span
+                  className="font-semibold"
+                  style={{ color: "var(--primary-orange)" }}
+                >
+                  {post.author}
+                </span>
+              </span>
               <span>•</span>
               <span>{post.date}</span>
               <span>•</span>
-              <span>Category:
+              <span>
+                Category:
                 <Link
-                  to={`/blog/category/${post.category.toLowerCase().replace(/\s/g, '-')}`}
+                  to={`/blog/category/${post.category
+                    .toLowerCase()
+                    .replace(/\s/g, "-")}`}
                   className="hover:underline"
-                  style={{ color: 'var(--primary-orange)' }}
+                  style={{ color: "var(--primary-orange)" }}
                 >
                   {post.category}
                 </Link>
               </span>
             </div>
 
-            <img src={post.imageUrl} alt={post.title} className="w-full h-auto rounded-lg mb-8 shadow-md" />
+            <img
+              src={post.imageUrl}
+              alt={post.title}
+              className="w-full h-auto rounded-lg mb-8 shadow-md"
+            />
 
             {/* The dangerouslySetInnerHTML content will directly use the inline styles defined in dummyPosts */}
-            <div className="prose max-w-none leading-relaxed" style={{ color: 'var(--text-default)' }} dangerouslySetInnerHTML={{ __html: post.content }}>
+            <div
+              className="prose max-w-none leading-relaxed"
+              style={{ color: "var(--text-default)" }}
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            >
               {/* Blog content will be injected here */}
             </div>
 
-            <div className="mt-8 pt-6 border-t" style={{ borderColor: 'var(--card-border)' }}>
-              <h4 className="text-lg font-bold mb-3" style={{ color: 'var(--heading-color)' }}>Tags:</h4>
+            <div
+              className="mt-8 pt-6 border-t"
+              style={{ borderColor: "var(--card-border)" }}
+            >
+              <h4
+                className="text-lg font-bold mb-3"
+                style={{ color: "var(--heading-color)" }}
+              >
+                Tags:
+              </h4>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag, index) => (
                   <Link
                     key={index}
-                    to={`/blog/tag/${tag.toLowerCase().replace(/\s/g, '-')}`}
+                    to={`/blog/tag/${tag.toLowerCase().replace(/\s/g, "-")}`}
                     className="px-3 py-1 text-xs font-medium rounded-full transition-colors duration-200"
                     style={{
-                      backgroundColor: 'var(--tag-default-bg)',
-                      color: 'var(--tag-default-text)',
+                      backgroundColor: "var(--tag-default-bg)",
+                      color: "var(--tag-default-text)",
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--card-border)'} // Darker hover for tags
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--tag-default-bg)'}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--card-border)")
+                    } // Darker hover for tags
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--tag-default-bg)")
+                    }
                   >
                     {tag}
                   </Link>
@@ -186,29 +259,50 @@ const SingleBlogPage = () => {
             {/* Search Blog */}
             <div
               className="p-6 rounded-lg shadow-lg border"
-              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+              style={{
+                backgroundColor: "var(--card-bg)",
+                borderColor: "var(--card-border)",
+              }}
             >
-              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--heading-color)' }}>Search Blog</h3>
+              <h3
+                className="text-xl font-bold mb-4"
+                style={{ color: "var(--heading-color)" }}
+              >
+                Search Blog
+              </h3>
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Search posts..."
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
                   style={{
-                    backgroundColor: 'var(--form-input-bg)',
-                    color: 'var(--form-input-text)',
-                    borderColor: 'var(--form-input-border)',
-                    '--tw-ring-color': 'var(--primary-orange)', // Tailwind ring color
+                    backgroundColor: "var(--form-input-bg)",
+                    color: "var(--form-input-text)",
+                    borderColor: "var(--form-input-border)",
+                    "--tw-ring-color": "var(--primary-orange)", // Tailwind ring color
                   }}
                 />
                 <button
                   className="absolute right-0 top-0 mt-2 mr-3 transition-colors duration-200"
-                  style={{ color: 'var(--search-icon-color)' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--search-icon-color)'}
+                  style={{ color: "var(--search-icon-color)" }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.color = "var(--primary-orange)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.color = "var(--search-icon-color)")
+                  }
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </button>
               </div>
@@ -217,138 +311,89 @@ const SingleBlogPage = () => {
             {/* Recent Posts */}
             <div
               className="p-6 rounded-lg shadow-lg border"
-              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+              style={{
+                backgroundColor: "var(--card-bg)",
+                borderColor: "var(--card-border)",
+              }}
             >
-              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--heading-color)' }}>Recent Posts</h3>
+              <h3
+                className="text-xl font-bold mb-4"
+                style={{ color: "var(--heading-color)" }}
+              >
+                Recent Posts
+              </h3>
               <ul className="space-y-3">
-                {dummyPosts.slice(0, 5).map((p, index) => ( // Show top 5 recent posts
-                  <li key={index}>
-                    <Link
-                      to={`/blog/${p.id}`}
-                      className="text-sm transition-colors duration-300"
-                      style={{ color: 'var(--text-muted)' }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
-                    >
-                      {p.title}
-                    </Link>
-                    <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{p.date}</p>
-                  </li>
-                ))}
+                {dummyPosts.slice(0, 5).map(
+                  (
+                    p,
+                    index // Show top 5 recent posts
+                  ) => (
+                    <li key={index}>
+                      <Link
+                        to={`/blog/${p.id}`}
+                        className="text-sm transition-colors duration-300"
+                        style={{ color: "var(--text-muted)" }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.color =
+                            "var(--text-accent-hover)")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.color = "var(--text-muted)")
+                        }
+                      >
+                        {p.title}
+                      </Link>
+                      <p
+                        className="text-xs mt-1"
+                        style={{ color: "var(--text-muted)" }}
+                      >
+                        {p.date}
+                      </p>
+                    </li>
+                  )
+                )}
               </ul>
             </div>
 
             {/* Blog Categories */}
             <div
               className="p-6 rounded-lg shadow-lg border"
-              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+              style={{
+                backgroundColor: "var(--card-bg)",
+                borderColor: "var(--card-border)",
+              }}
             >
-              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--heading-color)' }}>Blog Categories</h3>
+              <h3
+                className="text-xl font-bold mb-4"
+                style={{ color: "var(--heading-color)" }}
+              >
+                Blog Categories
+              </h3>
               <ul className="space-y-3">
-                {Array.from(new Set(dummyPosts.map(p => p.category))).map((category, index) => (
-                  <li key={index}>
-                    <Link
-                      to={`/blog/category/${category.toLowerCase().replace(/\s/g, '-')}`}
-                      className="text-sm transition-colors duration-300"
-                      style={{ color: 'var(--text-muted)' }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
-                    >
-                      {category}
-                    </Link>
-                  </li>
-                ))}
+                {Array.from(new Set(dummyPosts.map((p) => p.category))).map(
+                  (category, index) => (
+                    <li key={index}>
+                      <Link
+                        to={`/blog/category/${category
+                          .toLowerCase()
+                          .replace(/\s/g, "-")}`}
+                        className="text-sm transition-colors duration-300"
+                        style={{ color: "var(--text-muted)" }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.color =
+                            "var(--text-accent-hover)")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.color = "var(--text-muted)")
+                        }
+                      >
+                        {category}
+                      </Link>
+                    </li>
+                  )
+                )}
               </ul>
             </div>
-          </div>
-        </div>
-
-        {/* Comments Section */}
-        <div
-          className="p-6 sm:p-8 rounded-lg shadow-lg border mt-10"
-          style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
-        >
-          <h2
-            className="text-2xl font-extrabold mb-6 border-l-4 pl-4"
-            style={{ color: 'var(--main-heading-color)', borderColor: 'var(--primary-orange)' }}
-          >
-            Comments
-          </h2>
-          {/* Dummy Comments */}
-          <div className="space-y-6">
-            <div className="border-b pb-4" style={{ borderColor: 'var(--card-border)' }}>
-              <p className="font-semibold" style={{ color: 'var(--heading-color)' }}>
-                John Doe <span className="text-sm font-normal ml-2" style={{ color: 'var(--text-muted)' }}>June 21, 2025</span>
-              </p>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-default)' }}>Great tips! I've been looking for ways to cut down on my grocery bill. Will definitely try the meal planning strategy.</p>
-            </div>
-            <div className="border-b pb-4" style={{ borderColor: 'var(--card-border)' }}>
-              <p className="font-semibold" style={{ color: 'var(--heading-color)' }}>
-                Jane Smith <span className="text-sm font-normal ml-2" style={{ color: 'var(--text-muted)' }}>June 22, 2025</span>
-              </p>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-default)' }}>The bulk buying advice is crucial. I often fall into the trap of buying too much and wasting it.</p>
-            </div>
-          </div>
-
-          {/* Comment Form */}
-          <div className="mt-8">
-            <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--heading-color)' }}>Leave a Comment</h3>
-            <form className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-1" style={{ color: 'var(--text-muted)' }}>Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
-                  style={{
-                    backgroundColor: 'var(--form-input-bg)',
-                    color: 'var(--form-input-text)',
-                    borderColor: 'var(--form-input-border)',
-                    '--tw-ring-color': 'var(--primary-orange)',
-                  }}
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-1" style={{ color: 'var(--text-muted)' }}>Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
-                  style={{
-                    backgroundColor: 'var(--form-input-bg)',
-                    color: 'var(--form-input-text)',
-                    borderColor: 'var(--form-input-border)',
-                    '--tw-ring-color': 'var(--primary-orange)',
-                  }}
-                />
-              </div>
-              <div>
-                <label htmlFor="comment" className="block text-sm font-medium mb-1" style={{ color: 'var(--text-muted)' }}>Comment</label>
-                <textarea
-                  id="comment"
-                  rows="5"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
-                  style={{
-                    backgroundColor: 'var(--form-input-bg)',
-                    color: 'var(--form-input-text)',
-                    borderColor: 'var(--form-input-border)',
-                    '--tw-ring-color': 'var(--primary-orange)',
-                  }}
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="font-bold py-3 px-6 rounded-md transition-colors duration-200"
-                style={{
-                  backgroundColor: 'var(--primary-orange)',
-                  color: 'var(--neutral-white)',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--button-hover-orange)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-orange)'}
-              >
-                Post Comment
-              </button>
-            </form>
           </div>
         </div>
       </div>

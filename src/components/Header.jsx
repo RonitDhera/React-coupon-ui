@@ -59,9 +59,9 @@ const Header = () => {
           {/* Left: Random Placeholder Logo */}
           <Link to="/" className="flex-shrink-0">
             <img 
-              src="https://as2.ftcdn.net/jpg/05/38/48/03/1000_F_538480363_Xznvp7KB7dmeqRcsCsDB2XIrfNVHLWML.jpg" // Consider an orange/black themed logo
+              src="/src/assets/promocarnivals2.png" // Consider an orange/black themed logo
               alt="Site Logo" 
-              className="h-10 w-auto" 
+              className="h-20 w-25" 
             />
           </Link>
 
