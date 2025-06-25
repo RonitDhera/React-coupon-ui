@@ -1,6 +1,8 @@
+// src/components/Footer.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaTwitter, FaInstagram, FaTelegramPlane } from 'react-icons/fa';
+import PromoCarnivalsIcon from '../assets/promocarnivals (3).png'; // <--- IMPORTANT: Adjust this path to your actual logo image
 
 const Footer = () => {
   return (
@@ -10,7 +12,11 @@ const Footer = () => {
         {/* Company Info */}
         <div>
           {/* Logo text: pure white */}
-          <h3 className="text-2xl font-bold mb-5" style={{ color: 'var(--footer-heading-color)' }}>LOGO</h3>
+          <h3 className="text-2xl font-bold mb-5 flex items-center" style={{ color: 'var(--footer-heading-color)' }}>
+            {/* PromoCarnivals Logo/Icon */}
+            <img src={PromoCarnivalsIcon} alt="PromoCarnivals Logo" className="h-8 w-8 mr-2" /> {/* Adjust h-8 w-8 as needed */}
+            PromoCarnivals
+          </h3>
           {/* Description text: lighter gray */}
           <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--footer-text-secondary)' }}>
             Descriptions Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -53,7 +59,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Amazing Discounts Column */}
+        {/* Amazing Discounts Column (No change requested) */}
         <div>
           {/* Heading: pure white */}
           <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--footer-heading-color)' }}>Amazing Discounts</h3>
@@ -77,51 +83,53 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Information Column */}
+        {/* Information Column - UPDATED */}
         <div>
-          {/* Heading: pure white */}
           <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--footer-heading-color)' }}>Information</h3>
           <ul className="space-y-3">
-            {/* Link default color: lighter gray, hover color: orange */}
-            <li><Link to="#" className="text-sm transition-colors duration-300"
+            <li><Link to="/privacy-policy" className="text-sm transition-colors duration-300"
               style={{ color: 'var(--footer-text-secondary)' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
-            >Link A</Link></li>
-            <li><Link to="#" className="text-sm transition-colors duration-300"
+            >Privacy Policy</Link></li>
+            <li><Link to="/terms-of-use" className="text-sm transition-colors duration-300"
               style={{ color: 'var(--footer-text-secondary)' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
-            >Link B</Link></li>
-            <li><Link to="#" className="text-sm transition-colors duration-300"
+            >Terms of Use</Link></li>
+            <li><Link to="/faq" className="text-sm transition-colors duration-300"
               style={{ color: 'var(--footer-text-secondary)' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
-            >Link C</Link></li>
+            >FAQ's</Link></li>
+            <li><Link to="/brands" className="text-sm transition-colors duration-300"
+              style={{ color: 'var(--footer-text-secondary)' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
+            >All Brands</Link></li>
+            <li><Link to="/blogs" className="text-sm transition-colors duration-300"
+              style={{ color: 'var(--footer-text-secondary)' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
+            >Blogs</Link></li>
           </ul>
         </div>
 
-        {/* More From Us Column */}
+        {/* More From Us Column - UPDATED */}
         <div>
-          {/* Heading: pure white */}
           <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--footer-heading-color)' }}>More From Us</h3>
           <ul className="space-y-3">
-            {/* Link default color: lighter gray, hover color: orange */}
-            <li><Link to="#" className="text-sm transition-colors duration-300"
+            <li><Link to="/how-we-make-money" className="text-sm transition-colors duration-300"
               style={{ color: 'var(--footer-text-secondary)' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
-            >Article X</Link></li>
-            <li><Link to="#" className="text-sm transition-colors duration-300"
+            >How we make money</Link></li>
+            <li><Link to="/how-to-use-coupons" className="text-sm transition-colors duration-300"
               style={{ color: 'var(--footer-text-secondary)' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
-            >Article Y</Link></li>
-            <li><Link to="#" className="text-sm transition-colors duration-300"
-              style={{ color: 'var(--footer-text-secondary)' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--footer-text-secondary)'}
-            >Article Z</Link></li>
+            >How to use coupons</Link></li>
+            {/* Existing dummy links removed or replaced based on new requirements */}
           </ul>
         </div>
       </div>
@@ -131,17 +139,7 @@ const Footer = () => {
         className="container mx-auto px-4 md:px-6 lg:px-8 text-center text-xs mt-10 pt-6"
         style={{ color: 'var(--footer-copyright-text)', borderTop: '1px solid var(--footer-border-color)' }}
       >
-        <p>&copy; {new Date().getFullYear()} Your Company Name. All rights reserved. |
-          <Link to="#" className="transition-colors duration-300"
-            style={{ color: 'inherit' /* inherit from parent p tag */ }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'inherit'}
-          > Disclaimer</Link> |
-          <Link to="#" className="transition-colors duration-300"
-            style={{ color: 'inherit' /* inherit from parent p tag */ }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--footer-link-hover)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'inherit'}
-          > Privacy Policy</Link>
+        <p>&copy; {new Date().getFullYear()} PromoCarnivals. All rights reserved. 
         </p>
       </div>
     </footer>

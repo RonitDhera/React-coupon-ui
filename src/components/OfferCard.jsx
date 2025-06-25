@@ -45,7 +45,8 @@ const OfferCard = ({
   // --- NEW FUNCTION TO CLOSE MODAL ON BACKDROP CLICK ---
   const handleBackdropClick = (e) => {
     // Only close if the click originated directly on the backdrop, not on the modal content itself
-    if (e.target.classList.contains('bg-opacity-60')) { // Targeting the specific backdrop class
+    // Using currentTarget and target helps ensure the click is on the backdrop
+    if (e.target === e.currentTarget) {
       setIsModalOpen(false);
     }
   };
@@ -55,9 +56,10 @@ const OfferCard = ({
   const buttonBgColor = isExpired ? 'bg-[var(--offer-button-disabled-bg)] cursor-not-allowed' : 'bg-[var(--offer-button-bg)]';
   const buttonTextColor = 'text-[var(--offer-button-text)]';
 
+  // Dummy store name if not provided
   const storeName = "The Body Shop"; // This can be passed as a prop too
   const defaultStoreLogo = "https://via.placeholder.com/100x100?text=Store+Logo";
-  const defaultStoreImage = "https://via.placeholder.com/150x150?text=Brand+Image";
+  const defaultStoreImage = "https://via.placeholder.com/150x150?text=Brand+Image"; // This might be used in modal for a larger image
 
   const getPartialCode = useCallback(() => {
     return showCode && offerValue ? offerValue.substring(0, 3).toUpperCase() : '---';
@@ -86,12 +88,13 @@ const OfferCard = ({
 
   return (
     <div
-      className={`relative rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex mb-6 overflow-hidden ${isExpired ? 'opacity-70 grayscale' : ''}`}
+      className={`relative rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row mb-6 overflow-hidden ${isExpired ? 'opacity-70 grayscale' : ''}`}
       style={{ backgroundColor: 'var(--offer-card-bg)' }}
     >
       {/* Left Section: Logo & Text */}
+      {/* Adjusted for responsiveness: full width on small, then w-1/4 on md */}
       <div
-        className="flex-shrink-0 w-1/4 p-4 flex flex-col items-center justify-center border-r"
+        className="flex-shrink-0 w-full md:w-1/4 p-4 flex flex-col items-center justify-center border-b md:border-r md:border-b-0"
         style={{ borderColor: 'var(--offer-card-border)', backgroundColor: 'var(--offer-card-left-section-bg)' }}
       >
         <div className="w-24 h-24 bg-[var(--offer-card-bg)] flex items-center justify-center rounded-full overflow-hidden shadow-inner mb-2">
@@ -105,12 +108,14 @@ const OfferCard = ({
       </div>
 
       {/* Middle Section: Offer Description */}
-      <div className="flex-grow p-5 flex flex-col justify-center">
-        <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--offer-card-offer-heading-text)' }}>{offerText}</h3>
+      {/* Increased padding slightly for better mobile appearance, added text-center on small screens */}
+      <div className="flex-grow p-5 md:p-6 flex flex-col justify-center text-center md:text-left">
+        <h3 className="text-lg sm:text-xl font-bold mb-2" style={{ color: 'var(--offer-card-offer-heading-text)' }}>{offerText}</h3>
         <p className={`text-sm ${isExpired ? 'font-bold' : ''}`} style={{ color: isExpired ? 'var(--offer-card-expired-text)' : 'var(--offer-card-expires-text)' }}>
           {isExpired ? 'Expired' : `Expires: ${endDate}`}
         </p>
-        <div className="mt-3 flex flex-wrap gap-2">
+        {/* Adjusted tag display for better mobile wrap */}
+        <div className="mt-3 flex flex-wrap justify-center md:justify-start gap-2">
           {tags.map((tag, index) => (
             <span
               key={index}
@@ -123,7 +128,8 @@ const OfferCard = ({
       </div>
 
       {/* Right Section: Button & Terms */}
-      <div className="relative flex-shrink-0 w-1/4 flex flex-col items-center justify-center p-2 sm:p-4">
+      {/* Adjusted for responsiveness: full width on small, then w-1/4 on md, centered content */}
+      <div className="relative flex-shrink-0 w-full md:w-1/4 flex flex-col items-center justify-center p-4 md:p-2">
         {showCode ? (
           // Container for the button and the sliding code part
           <div
@@ -198,6 +204,7 @@ const OfferCard = ({
         )}
 
         {/* View Terms & Conditions with inline message */}
+        {/* Adjusted margin top for mobile */}
         <div className="mt-4 text-center w-full">
           <button
             onClick={handleViewTermsClick}
@@ -229,7 +236,7 @@ const OfferCard = ({
             style={{ backgroundColor: 'var(--modal-bg)' }}
           >
             <div className="flex justify-between items-center mb-6 border-b pb-4">
-              <h2 className="text-2xl font-bold" style={{ color: 'var(--modal-heading-text)' }}>Offer Details</h2>
+              <h2 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--modal-heading-text)' }}>Offer Details</h2>
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="text-3xl font-semibold leading-none"
@@ -248,8 +255,8 @@ const OfferCard = ({
                 className="w-24 h-24 rounded-full mb-4 border-2 shadow-sm"
                 style={{ borderColor: 'var(--modal-logo-border)' }}
               />
-              <h3 className="2xl font-semibold mb-1" style={{ color: 'var(--modal-store-name-text)' }}>{storeName}</h3>
-              <p className="text-center text-lg leading-snug" style={{ color: 'var(--modal-offer-text-description)' }}>{offerText}</p>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-1" style={{ color: 'var(--modal-store-name-text)' }}>{storeName}</h3>
+              <p className="text-center text-base leading-snug" style={{ color: 'var(--modal-offer-text-description)' }}>{offerText}</p>
             </div>
 
             {showCode ? (
@@ -271,7 +278,7 @@ const OfferCard = ({
                   />
                   <button
                     onClick={handleCopyCode}
-                    className="font-bold py-3 px-5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                    className="font-bold py-3 px-4 sm:px-5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 text-sm sm:text-base whitespace-nowrap"
                     style={{
                       backgroundColor: 'var(--modal-copy-button-bg)',
                       color: 'var(--modal-copy-button-text)',
@@ -289,7 +296,7 @@ const OfferCard = ({
               </div>
             ) : (
               <>
-                <p className="mt-4 text-center text-base" style={{ color: 'var(--modal-offer-text-description)' }}>
+                <p className="mt-4 text-center text-sm sm:text-base" style={{ color: 'var(--modal-offer-text-description)' }}>
                   Click the button below to go to the store and get this offer!
                 </p>
                 {/* This button inside the modal also directs to Google.com */}

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react'; // Import useState and useCallback
 import { useParams, Link } from 'react-router-dom';
 import OfferCard from './OfferCard'; // Import the reusable OfferCard component
 
 const StorePage = () => {
   const { storeName } = useParams();
+
+  // State for the interactive rating
+  const [userRating, setUserRating] = useState(0); // 0 means no rating yet, 1-5 is the user's selected rating
+  const [hoverRating, setHoverRating] = useState(0); // For showing stars on hover before selection
 
   const formatStoreName = (name) => {
     if (!name) return 'Store';
@@ -28,6 +32,28 @@ const StorePage = () => {
     { storeLogo: 'https://via.placeholder.com/100x100/B0B0B0/FFFFFF?text=Expired2', offerText: 'Expired Offer example, still works sometimes', endDate: 'Tue, 12 Apr, 2025', showCode: false, offerValue: 'https://www.thebodyshop.com/old-offer', isExpired: true, tags: ['Verified'] },
     { storeLogo: 'https://via.placeholder.com/100x100/D0D0D0/FFFFFF?text=Expired3', offerText: 'Another expired deal you might like', endDate: 'Mon, 01 Mar, 2025', showCode: false, offerValue: 'https://www.thebodyshop.com/another-old-deal', isExpired: true, tags: ['Verified'] },
   ];
+
+  // Function to render interactive stars
+  const renderStars = useCallback(() => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span
+          key={i}
+          className={`cursor-pointer transition-colors duration-100 ${
+            (hoverRating || userRating) >= i ? 'text-yellow-500' : 'text-gray-400'
+          }`}
+          style={{ fontSize: '2rem' }} // Larger stars for better clickability
+          onMouseEnter={() => setHoverRating(i)}
+          onMouseLeave={() => setHoverRating(0)}
+          onClick={() => setUserRating(i)}
+        >
+          ★
+        </span>
+      );
+    }
+    return stars;
+  }, [userRating, hoverRating]); // Re-render stars if userRating or hoverRating changes
 
   return (
     <div className="pb-12 min-h-screen font-sans" style={{ backgroundColor: 'var(--page-bg)' }}>
@@ -127,15 +153,28 @@ const StorePage = () => {
               <p className="text-xs mt-3" style={{ color: 'var(--breadcrumb-separator-color)' }}>Last updated: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
             </div>
 
-            {/* Rate Store Name */}
+            {/* Rate Store Name - MODIFIED FOR INTERACTIVITY */}
             <div
               className="p-6 rounded-lg shadow-lg border"
               style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
               <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--main-heading-color)' }}>Rate {formattedStoreName}</h3>
-              {/* Yellow stars are a common UI pattern for ratings, keeping them yellow. */}
-              <p className="text-yellow-500 text-3xl font-bold mb-2">★★★★★</p>
-              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>5.0 from 312 Users</p>
+              <div className="flex text-3xl mb-2 justify-center sm:justify-start"> {/* Flex container for stars */}
+                {renderStars()}
+              </div>
+              {userRating > 0 ? (
+                <p className="text-sm mt-2" style={{ color: 'var(--text-highlight)' }}>
+                  You rated: <span className="font-semibold">{userRating}.0</span>
+                </p>
+              ) : (
+                <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
+                  Click on the stars to rate this store!
+                </p>
+              )}
+              {/* This line remains for overall community rating, distinct from user's individual rating */}
+              <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                Community Rating: 5.0 from 312 Users
+              </p>
             </div>
 
             {/* Store Short Descriptions */}
