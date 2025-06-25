@@ -35,7 +35,9 @@ const StoreListPage = () => {
           description: 'Find everything you need, from books and electronics to home goods and fashion, with fast shipping and great deals.',
           totalOffers: 120,
           categories: ['Electronics', 'Books', 'Home', 'Fashion'],
-          affiliateLink: 'https://www.amazon.com'
+          affiliateLink: 'https://www.amazon.com',
+          averageRating: 4.7, // Added dummy rating
+          totalReviews: 500, // Added dummy reviews count
         },
         {
           id: 'store-2',
@@ -44,7 +46,9 @@ const StoreListPage = () => {
           description: 'Your one-stop shop for groceries, electronics, apparel, and more, offering everyday low prices.',
           totalOffers: 95,
           categories: ['Groceries', 'Home', 'Electronics', 'Apparel'],
-          affiliateLink: 'https://www.walmart.com'
+          affiliateLink: 'https://www.walmart.com',
+          averageRating: 4.2, // Added dummy rating
+          totalReviews: 300, // Added dummy reviews count
         },
         {
           id: 'store-3',
@@ -53,7 +57,9 @@ const StoreListPage = () => {
           description: 'Expect More. Pay Less. Shop Target for great deals on home decor, clothing, electronics, and baby products.',
           totalOffers: 80,
           categories: ['Home', 'Apparel', 'Baby', 'Electronics'],
-          affiliateLink: 'https://www.target.com'
+          affiliateLink: 'https://www.target.com',
+          averageRating: 4.5, // Added dummy rating
+          totalReviews: 250, // Added dummy reviews count
         },
         {
           id: 'store-4',
@@ -62,7 +68,9 @@ const StoreListPage = () => {
           description: 'Shop for electronics, computers, appliances, cell phones, video games & more new tech. In-store pickup & free shipping.',
           totalOffers: 60,
           categories: ['Electronics', 'Appliances', 'Tech'],
-          affiliateLink: 'https://www.bestbuy.com'
+          affiliateLink: 'https://www.bestbuy.com',
+          averageRating: 4.6,
+          totalReviews: 180,
         },
         {
           id: 'store-5',
@@ -71,7 +79,9 @@ const StoreListPage = () => {
           description: 'Your ultimate destination for beauty products, fragrances, and skincare from top brands.',
           totalOffers: 45,
           categories: ['Beauty', 'Skincare', 'Fragrance'],
-          affiliateLink: 'https://www.sephora.com'
+          affiliateLink: 'https://www.sephora.com',
+          averageRating: 4.8,
+          totalReviews: 210,
         },
         {
           id: 'store-6',
@@ -80,7 +90,9 @@ const StoreListPage = () => {
           description: 'Shop for Nike shoes, clothing and gear. Get the latest innovation in sports footwear and apparel.',
           totalOffers: 30,
           categories: ['Apparel', 'Sporting Goods', 'Shoes'],
-          affiliateLink: 'https://www.nike.com'
+          affiliateLink: 'https://www.nike.com',
+          averageRating: 4.7,
+          totalReviews: 150,
         },
         {
           id: 'store-7',
@@ -89,7 +101,9 @@ const StoreListPage = () => {
           description: 'Shop for all your home improvement needs. Find tools, appliances, building supplies, and more.',
           totalOffers: 70,
           categories: ['Home Improvement', 'Hardware', 'Garden'],
-          affiliateLink: 'https://www.homedepot.com'
+          affiliateLink: 'https://www.homedepot.com',
+          averageRating: 4.3,
+          totalReviews: 100,
         },
         {
           id: 'store-8',
@@ -98,7 +112,9 @@ const StoreListPage = () => {
           description: 'Shop for the latest fashion trends, home decor, and beauty products from top brands at Macy\'s.',
           totalOffers: 55,
           categories: ['Fashion', 'Apparel', 'Home', 'Beauty'],
-          affiliateLink: 'https://www.macys.com'
+          affiliateLink: 'https://www.macys.com',
+          averageRating: 4.1,
+          totalReviews: 90,
         },
         {
           id: 'store-9',
@@ -107,7 +123,9 @@ const StoreListPage = () => {
           description: 'Your online pet store for pet food, supplies, and more, delivered right to your door.',
           totalOffers: 40,
           categories: ['Pet Supplies', 'Pet Food'],
-          affiliateLink: 'https://www.chewy.com'
+          affiliateLink: 'https://www.chewy.com',
+          averageRating: 4.9,
+          totalReviews: 110,
         },
         {
           id: 'store-10',
@@ -116,7 +134,9 @@ const StoreListPage = () => {
           description: 'Book flights, hotels, rental cars, and vacation packages for your next adventure.',
           totalOffers: 25,
           categories: ['Travel', 'Flights', 'Hotels'],
-          affiliateLink: 'https://www.expedia.com'
+          affiliateLink: 'https://www.expedia.com',
+          averageRating: 4.0,
+          totalReviews: 70,
         },
         {
           id: 'store-11',
@@ -125,7 +145,9 @@ const StoreListPage = () => {
           description: 'Shop for clothes, shoes, home, bedding, jewelry, and more. Find great deals and earn Kohl\'s Cash.',
           totalOffers: 65,
           categories: ['Apparel', 'Home', 'Jewelry'],
-          affiliateLink: 'https://www.kohls.com'
+          affiliateLink: 'https://www.kohls.com',
+          averageRating: 4.2,
+          totalReviews: 85,
         },
         {
           id: 'store-12',
@@ -134,7 +156,20 @@ const StoreListPage = () => {
           description: 'The best place to shop for shoes, clothing, and accessories online. Free shipping and returns.',
           totalOffers: 35,
           categories: ['Shoes', 'Apparel', 'Accessories'],
-          affiliateLink: 'https://www.zappos.com'
+          affiliateLink: 'https://www.zappos.com',
+          averageRating: 4.6,
+          totalReviews: 95,
+        },
+        { // Added The Body Shop here to ensure consistency
+          id: 'the-body-shop',
+          name: 'The Body Shop',
+          logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d2/The_Body_Shop_logo.svg',
+          description: 'The Body Shop International plc is a British cosmetics, skin care and perfume company. It was founded in 1976 by Anita Roddick.',
+          totalOffers: 3,
+          categories: ['Beauty', 'Skincare', 'Cosmetics'],
+          affiliateLink: 'https://www.thebodyshop.com/',
+          averageRating: 4.5,
+          totalReviews: 128,
         },
       ];
 
@@ -169,6 +204,27 @@ const StoreListPage = () => {
     });
     return ['All', ...Array.from(categories).sort()];
   }, [stores]);
+
+  // Helper function to render star ratings
+  const renderStars = (rating) => {
+    const stars = [];
+    // Ensure rating is a number and within 0-5
+    const normalizedRating = Math.max(0, Math.min(5, Math.round(rating)));
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <svg
+          key={i}
+          className={`h-4 w-4 ${i <= normalizedRating ? 'text-yellow-400' : 'text-gray-300'}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.927 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+        </svg>
+      );
+    }
+    return stars;
+  };
+
 
   const filteredAndSortedStores = useMemo(() => {
     let filtered = stores;
@@ -372,7 +428,7 @@ const StoreListPage = () => {
                   </Link>
                 </h3>
                 <p className="text-sm mb-3 line-clamp-3" style={{ color: 'var(--text-muted)' }}>{store.description}</p>
-                <div className="flex flex-wrap justify-center gap-2 text-xs mb-4">
+                <div className="flex flex-wrap justify-center gap-2 text-xs mb-2"> {/* Reduced margin-bottom */}
                   {store.categories.map((cat, idx) => (
                     <span
                       key={idx}
@@ -383,6 +439,22 @@ const StoreListPage = () => {
                     </span>
                   ))}
                 </div>
+
+                {/* NEWLY ADDED: Rating Section */}
+                <div className="flex items-center justify-center mb-2"> {/* Added margin-bottom */}
+                  {store.averageRating && (
+                    <div className="flex text-yellow-400 mr-1"> {/* Adjusted margin */}
+                      {renderStars(store.averageRating)}
+                    </div>
+                  )}
+                  <span className="font-semibold text-sm" style={{ color: 'var(--main-heading-color)' }}>
+                    {store.averageRating ? store.averageRating.toFixed(1) : 'N/A'}
+                  </span>
+                  <span className="text-xs ml-1" style={{ color: 'var(--text-muted)' }}>
+                    ({store.totalReviews || 0})
+                  </span>
+                </div>
+
                 <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
                   <span className="font-semibold" style={{ color: 'var(--text-highlight)' }}>{store.totalOffers}</span> Offers Available
                 </p>

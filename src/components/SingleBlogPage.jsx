@@ -70,6 +70,22 @@ const dummyPosts = [
   // Add more dummy posts as needed for related posts
 ];
 
+// Dummy comments for demonstration
+const dummyComments = [
+  {
+    id: 1,
+    author: "Jane Doe",
+    date: "June 22, 2025",
+    content: "This is a great article! Very helpful tips.",
+  },
+  {
+    id: 2,
+    author: "John Smith",
+    date: "June 21, 2025",
+    content: "I've tried some of these, and they really work. Thanks!",
+  },
+];
+
 const SingleBlogPage = () => {
   const { id } = useParams();
   const post = dummyPosts.find((p) => p.id === id);
@@ -132,7 +148,8 @@ const SingleBlogPage = () => {
             &gt;
           </span>
           <Link
-            to="/blogs"
+            to='/blogs' 
+            
             className="transition-colors duration-300"
             style={{ color: "var(--text-muted)" }}
             onMouseEnter={(e) =>
@@ -252,6 +269,140 @@ const SingleBlogPage = () => {
                 ))}
               </div>
             </div>
+
+            {/* Comments Section - ADDED HERE */}
+            <div
+              className="mt-10 pt-8 border-t"
+              style={{ borderColor: "var(--card-border)" }}
+            >
+              <h3
+                className="text-2xl font-bold mb-6"
+                style={{ color: "var(--heading-color)" }}
+              >
+                Comments
+              </h3>
+
+              {/* Comment Form */}
+              {/* <div className="mb-8 p-6 rounded-lg border"
+                 style={{
+                   backgroundColor: "var(--form-bg)",
+                   borderColor: "var(--form-border)",
+                 }}>
+                <h4
+                  className="text-xl font-semibold mb-4"
+                  style={{ color: "var(--heading-color)" }}
+                >
+                  Leave a Comment
+                </h4>
+                <form className="space-y-4">
+                  <div>
+                    <label htmlFor="commentName" className="block text-sm font-medium mb-1"
+                           style={{ color: "var(--form-label-text)" }}>
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="commentName"
+                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{
+                        backgroundColor: "var(--form-input-bg)",
+                        color: "var(--form-input-text)",
+                        borderColor: "var(--form-input-border)",
+                        '--tw-ring-color': 'var(--primary-orange)',
+                      }}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="commentEmail" className="block text-sm font-medium mb-1"
+                           style={{ color: "var(--form-label-text)" }}>
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="commentEmail"
+                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{
+                        backgroundColor: "var(--form-input-bg)",
+                        color: "var(--form-input-text)",
+                        borderColor: "var(--form-input-border)",
+                        '--tw-ring-color': 'var(--primary-orange)',
+                      }}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="commentContent" className="block text-sm font-medium mb-1"
+                           style={{ color: "var(--form-label-text)" }}>
+                      Comment
+                    </label>
+                    <textarea
+                      id="commentContent"
+                      rows="5"
+                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{
+                        backgroundColor: "var(--form-input-bg)",
+                        color: "var(--form-input-text)",
+                        borderColor: "var(--form-input-border)",
+                        '--tw-ring-color': 'var(--primary-orange)',
+                      }}
+                      required
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    className="mt-auto font-bold py-2 px-5 rounded-md transition-colors duration-200 text-sm w-50"
+                    style={{
+                      backgroundColor: 'var(--primary-orange)', color: 'var(--neutral-white)' ,
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--button-hover-orange)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--primary-orange)")
+                    }
+                  >
+                    Post Comment
+                  </button>
+                  
+                </form>
+              </div> */}
+
+              {/* Existing Comments List */}
+              {dummyComments.length > 0 ? (
+                <div className="space-y-6">
+                  {dummyComments.map((comment) => (
+                    <div
+                      key={comment.id}
+                      className="p-5 rounded-lg border"
+                      style={{
+                        backgroundColor: "var(--card-bg)",
+                        borderColor: "var(--card-border)",
+                      }}
+                    >
+                      <div className="flex items-center mb-2">
+                        <p className="font-semibold mr-2" style={{ color: "var(--primary-orange)" }}>
+                          {comment.author}
+                        </p>
+                        <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+                          on {comment.date}
+                        </p>
+                      </div>
+                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-default)" }}>
+                        {comment.content}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-sm" style={{ color: "var(--text-muted)" }}>
+                  No comments yet. Be the first to comment!
+                </p>
+              )}
+            </div>
+            {/* End Comments Section */}
           </div>
 
           {/* Sidebar */}
