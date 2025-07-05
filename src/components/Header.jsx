@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { UserIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'; // UserIcon is kept
+// import { Link, useNavigate } from 'react-router-dom'; // REMOVED: Link and useNavigate
+import { UserIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import promocarnivals2Logo from '../assets/promocarnivals2.png'; // Import the logo directly
 
 const Header = () => {
@@ -9,10 +9,9 @@ const Header = () => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchInputRef = useRef(null);
   const searchDropdownRef = useRef(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate(); // REMOVED: useNavigate
 
   const allDummyResults = [
-    // Add some dummy data here to test search results
     { id: 1, name: 'Cettire Store', link: '/store/cettire' },
     { id: 2, name: 'Trip.com Offers', link: '/store/trip.com' },
     { id: 3, name: 'Target Deals', link: '/store/target' },
@@ -22,7 +21,7 @@ const Header = () => {
     { id: 7, name: 'Casify Cases', link: '/store/casify' },
     { id: 8, name: 'Electronics Category', link: '/category/electronics' },
     { id: 9, name: 'Fashion Discounts', link: '/category/fashion' },
-  ]; // Added dummy data for testing purposes
+  ];
 
   useEffect(() => {
     if (searchTerm.length > 1) {
@@ -66,31 +65,26 @@ const Header = () => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && searchTerm.trim()) {
       setIsSearchFocused(false);
-      navigate(`/stores?search=${encodeURIComponent(searchTerm.trim())}`);
+      // Replaced navigate with direct window.location for full page reload
+      window.location.href = `/stores?search=${encodeURIComponent(searchTerm.trim())}`;
     }
   };
 
   return (
-    // Header background white, border light gray using CSS variables
     <header className="shadow-md py-3 font-sans" style={{ backgroundColor: 'var(--header-bg)', borderBottom: '1px solid var(--border-light)' }}>
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        {/* Top Row: Logo, Search Bar, Blog Link, and Sign In */}
-        {/* Adjusted for better mobile layout: flex-col on small, then flex-row on md */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-y-4 md:gap-x-4 pb-4 border-b border-gray-200 mb-4">
-          {/* Left: Random Placeholder Logo */}
-          <Link to="/" className="flex-shrink-0 md:mb-0"> {/* Removed mb-4 */}
+          {/* Replaced Link with <a> */}
+          <a href="/" className="flex-shrink-0 md:mb-0">
             <img
-              src={promocarnivals2Logo} // Using imported logo
+              src={promocarnivals2Logo}
               alt="Site Logo"
-              className="h-20 w-auto" // Added w-auto to maintain aspect ratio
+              className="h-20 w-auto"
             />
-          </Link>
+          </a>
 
-          {/* Right Section: Search Bar, Blog Link, and SIGNIN */}
-          {/* Adjusted for better mobile layout: order and width */}
-          <div className="flex flex-col sm:flex-row items-center gap-y-4 sm:gap-x-4 flex-grow w-full md:w-auto justify-end"> {/* Added w-full */}
-            {/* Search Bar with Dropdown - Now full width on small screens */}
-            <div className="relative w-full sm:max-w-xs md:max-w-md"> {/* Made full width on small, then max-w on sm/md */}
+          <div className="flex flex-col sm:flex-row items-center gap-y-4 sm:gap-x-4 flex-grow w-full md:w-auto justify-end">
+            <div className="relative w-full sm:max-w-xs md:max-w-md">
               <input
                 ref={searchInputRef}
                 type="text"
@@ -135,51 +129,55 @@ const Header = () => {
                   }}
                 >
                   {searchResults.map((result) => (
-                    <Link
+                    // Replaced Link with <a>
+                    <a
                       key={result.id}
-                      to={result.link}
+                      href={result.link}
                       className="block px-4 py-2 text-left"
                       style={{
                         color: 'var(--text-default)',
                       }}
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--search-result-hover-bg)'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                      onClick={() => setIsSearchFocused(false)}
+                      onClick={() => setIsSearchFocused(false)} // This click handler remains fine
                     >
                       {result.name}
-                    </Link>
+                    </a>
                   ))}
                 </div>
               )}
             </div>
 
             {/* NEW: Blog Link */}
-            {/* Added ml-auto on small screens to push it to the right if search bar takes full width */}
             <div className="flex-shrink-0 flex items-center space-x-1 sm:ml-auto md:ml-0">
-              <Link
-                to="/blogs"
+              {/* Replaced Link with <a> */}
+              <a
+                href="BlogPage.jsx"
                 className="font-medium text-sm whitespace-nowrap transition-colors duration-300"
                 style={{ color: 'var(--text-default)' }}
                 onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
                 onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-default)'}
               >
                 Blog
-              </Link>
+              </a>
             </div>
 
             {/* ORIGINAL: SIGNIN with User Icon - UNCOMMENTED AND KEPT AS PER PREVIOUS INSTRUCTION */}
-            {/* <div className="flex-shrink-0 flex items-center space-x-1">
+            {/* If you intend to use this, uncomment it. It will also need to be an <a> tag. */}
+            {/*
+            <div className="flex-shrink-0 flex items-center space-x-1">
               <UserIcon className="h-5 w-5" style={{ color: 'var(--icon-default)' }} />
-              <Link
-                to="/signin"
+              <a
+                href="/signin" // Changed from Link to <a>
                 className="font-medium text-sm whitespace-nowrap transition-colors duration-300"
                 style={{ color: 'var(--text-default)' }}
                 onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
                 onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-default)'}
               >
                 SIGNIN
-              </Link>
-            </div> */}
+              </a>
+            </div>
+            */}
           </div>
         </div>
 
@@ -192,8 +190,9 @@ const Header = () => {
                 "Travel", "Health", "Kitchen & Kitchenware", "Beauty"
               ].map((category) => (
                 <li key={category}>
-                  <Link
-                    to={`/category/${category.replace(/ & /g, '-').toLowerCase()}`}
+                  {/* Replaced Link with <a> */}
+                  <a
+                    href={`/category/${category.replace(/ & /g, '-').toLowerCase()}`}
                     className="flex items-center px-3 py-1.5 rounded-full shadow-sm hover:shadow-md transition-all duration-300 whitespace-nowrap"
                     style={{
                       backgroundColor: 'var(--category-button-bg-default)',
@@ -209,7 +208,7 @@ const Header = () => {
                     }}
                   >
                     {category}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom'; // Keep useParams if you still want to extract categoryName from URL
 import OfferCard from './OfferCard'; // Import the reusable OfferCard component
 
 const CategoryPage = () => {
-  const { categoryName } = useParams();
+  const { categoryName } = useParams(); // useParams can still be used to read URL parameters even without Link
 
   const formatCategoryName = (name) => {
     if (!name) return 'Category';
@@ -29,26 +29,26 @@ const CategoryPage = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8"> {/* Consistent padding */}
         {/* Breadcrumbs */}
         <nav className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
-          <Link
-            to="/"
+          <a
+            href="/" // Changed from to="/"
             className="transition-colors duration-300"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             Home
-          </Link>
+          </a>
           <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
           {/* Example: A generic "Categories" link before the specific category */}
-          <Link
-            to="/categories"
+          <a
+            href="/categories" // Changed from to="/categories"
             className="transition-colors duration-300"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             Categories
-          </Link>
+          </a>
           <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
           <span className="font-semibold" style={{ color: 'var(--main-heading-color)' }}>{formattedCategoryName}</span> {/* Current category */}
         </nav>
@@ -110,15 +110,15 @@ const CategoryPage = () => {
               <ul className="space-y-3">
                 {[...Array(5)].map((_, i) => (
                   <li key={i}>
-                    <Link
-                      to={`/category/popular-category-${i + 1}`}
+                    <a
+                      href={`/category/popular-category-${i + 1}`} // Changed from to={`/category/...`}
                       className="text-sm transition-colors duration-300"
                       style={{ color: 'var(--popular-link-default)' }}
                       onMouseEnter={(e) => e.currentTarget.style.color = 'var(--popular-link-hover)'}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'var(--popular-link-default)'}
                     >
                       Popular Category {i + 1}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>

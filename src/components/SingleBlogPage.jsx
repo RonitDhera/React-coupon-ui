@@ -1,6 +1,6 @@
 // src/components/SingleBlogPage.jsx
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom"; // Keep useParams
 
 const dummyPosts = [
   {
@@ -128,8 +128,8 @@ const SingleBlogPage = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8">
         {/* Breadcrumbs */}
         <nav className="text-sm mb-6">
-          <Link
-            to="/"
+          <a // Changed from Link to a
+            href="/" // Changed from to="/"
             className="transition-colors duration-300"
             style={{ color: "var(--text-muted)" }}
             onMouseEnter={(e) =>
@@ -140,16 +140,15 @@ const SingleBlogPage = () => {
             }
           >
             Home
-          </Link>
+          </a>
           <span
             className="mx-2"
             style={{ color: "var(--breadcrumb-separator-color)" }}
           >
             &gt;
           </span>
-          <Link
-            to='/blogs' 
-            
+          <a // Changed from Link to a
+            href="/blogs" // Changed from to='/blogs'
             className="transition-colors duration-300"
             style={{ color: "var(--text-muted)" }}
             onMouseEnter={(e) =>
@@ -160,7 +159,7 @@ const SingleBlogPage = () => {
             }
           >
             Blogs
-          </Link>
+          </a>
           <span
             className="mx-2"
             style={{ color: "var(--breadcrumb-separator-color)" }}
@@ -208,15 +207,15 @@ const SingleBlogPage = () => {
               <span>•</span>
               <span>
                 Category:
-                <Link
-                  to={`/blog/category/${post.category
+                <a // Changed from Link to a
+                  href={`/blog/category/${post.category
                     .toLowerCase()
                     .replace(/\s/g, "-")}`}
                   className="hover:underline"
                   style={{ color: "var(--primary-orange)" }}
                 >
                   {post.category}
-                </Link>
+                </a>
               </span>
             </div>
 
@@ -247,9 +246,9 @@ const SingleBlogPage = () => {
               </h4>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag, index) => (
-                  <Link
+                  <a // Changed from Link to a
                     key={index}
-                    to={`/blog/tag/${tag.toLowerCase().replace(/\s/g, "-")}`}
+                    href={`/blog/tag/${tag.toLowerCase().replace(/\s/g, "-")}`}
                     className="px-3 py-1 text-xs font-medium rounded-full transition-colors duration-200"
                     style={{
                       backgroundColor: "var(--tag-default-bg)",
@@ -265,7 +264,7 @@ const SingleBlogPage = () => {
                     }
                   >
                     {tag}
-                  </Link>
+                  </a>
                 ))}
               </div>
             </div>
@@ -282,7 +281,7 @@ const SingleBlogPage = () => {
                 Comments
               </h3>
 
-              {/* Comment Form */}
+              {/* Comment Form (Still commented out, no change needed) */}
               {/* <div className="mb-8 p-6 rounded-lg border"
                  style={{
                    backgroundColor: "var(--form-bg)",
@@ -297,7 +296,7 @@ const SingleBlogPage = () => {
                 <form className="space-y-4">
                   <div>
                     <label htmlFor="commentName" className="block text-sm font-medium mb-1"
-                           style={{ color: "var(--form-label-text)" }}>
+                               style={{ color: "var(--form-label-text)" }}>
                       Name
                     </label>
                     <input
@@ -315,7 +314,7 @@ const SingleBlogPage = () => {
                   </div>
                   <div>
                     <label htmlFor="commentEmail" className="block text-sm font-medium mb-1"
-                           style={{ color: "var(--form-label-text)" }}>
+                               style={{ color: "var(--form-label-text)" }}>
                       Email
                     </label>
                     <input
@@ -333,7 +332,7 @@ const SingleBlogPage = () => {
                   </div>
                   <div>
                     <label htmlFor="commentContent" className="block text-sm font-medium mb-1"
-                           style={{ color: "var(--form-label-text)" }}>
+                               style={{ color: "var(--form-label-text)" }}>
                       Comment
                     </label>
                     <textarea
@@ -480,8 +479,8 @@ const SingleBlogPage = () => {
                     index // Show top 5 recent posts
                   ) => (
                     <li key={index}>
-                      <Link
-                        to={`/blog/${p.id}`}
+                      <a // Changed from Link to a
+                        href={`/blog/${p.id}`}
                         className="text-sm transition-colors duration-300"
                         style={{ color: "var(--text-muted)" }}
                         onMouseEnter={(e) =>
@@ -493,7 +492,7 @@ const SingleBlogPage = () => {
                         }
                       >
                         {p.title}
-                      </Link>
+                      </a>
                       <p
                         className="text-xs mt-1"
                         style={{ color: "var(--text-muted)" }}
@@ -524,8 +523,8 @@ const SingleBlogPage = () => {
                 {Array.from(new Set(dummyPosts.map((p) => p.category))).map(
                   (category, index) => (
                     <li key={index}>
-                      <Link
-                        to={`/blog/category/${category
+                      <a // Changed from Link to a
+                        href={`/blog/category/${category
                           .toLowerCase()
                           .replace(/\s/g, "-")}`}
                         className="text-sm transition-colors duration-300"
@@ -539,7 +538,7 @@ const SingleBlogPage = () => {
                         }
                       >
                         {category}
-                      </Link>
+                      </a>
                     </li>
                   )
                 )}

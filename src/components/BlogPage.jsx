@@ -1,6 +1,6 @@
 // src/components/BlogPage.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom'; // REMOVED: react-router-dom Link
 
 const blogPosts = [
   {
@@ -56,15 +56,15 @@ const BlogPage = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8">
         {/* Breadcrumbs */}
         <nav className="text-sm mb-6">
-          <Link
-            to="/"
+          <a // Changed from Link to a
+            href="/" // Changed from to="/"
             className="transition-colors duration-300"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             Home
-          </Link>
+          </a>
           <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
           <span className="font-semibold" style={{ color: 'var(--main-heading-color)' }}>All Blogs</span>
         </nav>
@@ -90,28 +90,28 @@ const BlogPage = () => {
               className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border"
               style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
-              <Link to={`/blog/${post.id}`}>
+              <a href={`/blog/${post.id}`}> {/* Changed from Link to a */}
                 <img src={post.imageUrl} alt={post.title} className="w-full h-48 object-cover" />
-              </Link>
+              </a>
               <div className="p-5">
                 <div className="text-xs font-semibold uppercase mb-2" style={{ color: 'var(--primary-orange)' }}>
-                  <Link
-                    to={`/blog/category/${post.category.toLowerCase().replace(/\s/g, '-')}`}
+                  <a // Changed from Link to a
+                    href={`/blog/category/${post.category.toLowerCase().replace(/\s/g, '-')}`} // Changed from to={`/blog/category/...`}
                     className="hover:underline"
                   >
                     {post.category}
-                  </Link>
+                  </a>
                 </div>
                 <h3 className="text-xl font-bold mb-3 leading-snug" style={{ color: 'var(--heading-color)' }}>
-                  <Link
-                    to={`/blog/${post.id}`}
+                  <a // Changed from Link to a
+                    href={`/blog/${post.id}`} // Changed from to={`/blog/...`}
                     className="transition-colors duration-300"
                     style={{ color: 'var(--heading-color)' }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
                     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--heading-color)'}
                   >
                     {post.title}
-                  </Link>
+                  </a>
                 </h3>
                 <p className="text-sm mb-4 line-clamp-3" style={{ color: 'var(--text-muted)' }}>{post.excerpt}</p>
                 <div className="flex justify-between items-center text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -123,7 +123,7 @@ const BlogPage = () => {
           ))}
         </div>
 
-        {/* Pagination (Dummy) */}
+        {/* Pagination (Dummy) - Already using <a> tags, no change needed. */}
         <div className="flex justify-center mt-12">
           <nav className="flex space-x-2" aria-label="Pagination">
             <a

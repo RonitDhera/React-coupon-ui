@@ -1,7 +1,7 @@
 // src/components/HomePage.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import OfferCard from './OfferCard';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom'; // REMOVED: react-router-dom Link
 import banner1Image from '../assets/banner 1.png'; // Import the banner image directly
 import banner2Image from '../assets/banner 2.png'; // Import the banner image directly
 
@@ -52,13 +52,9 @@ const HomePage = () => {
               <img src={banner.image} alt={`Banner ${index + 1}`} className="absolute inset-0 w-full h-full object-cover" />
 
               {/* Overlay (now empty as heading, subheading, and button are removed) */}
-              {/* The overlay div itself remains to maintain the dark overlay effect if 'var(--banner-overlay-bg)' is semi-transparent.
-                  If you want to remove the overlay entirely, you can remove this div as well. */}
               <div
-                className="absolute inset-0" // Removed flex, items-center, justify-center, text-center, p-4, z-10
-              
+                className="absolute inset-0"
               >
-                {/* Heading, Subheading, and Button are removed from here */}
               </div>
             </div>
           ))}
@@ -133,7 +129,6 @@ const HomePage = () => {
                 Featured Offers
               </h2>
               <div className="space-y-6">
-                {/* OfferCard is a separate component, ensure its internal colors are also updated with variables */}
                 {homePageOffers.map((offer, index) => (
                   <OfferCard key={index} {...offer} />
                 ))}
@@ -156,7 +151,8 @@ const HomePage = () => {
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--popular-link-hover)'}
                     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--popular-link-default)'}
                   >
-                    <Link to={`/store/store-name-${i + 1}`}>Store Name {i + 1}</Link>
+                    {/* Replaced Link with <a> */}
+                    <a href={`/store/store-name-${i + 1}`}>Store Name {i + 1}</a>
                   </li>
                 ))}
               </ul>
@@ -175,7 +171,8 @@ const HomePage = () => {
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--popular-link-hover)'}
                     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--popular-link-default)'}
                   >
-                    <Link to={`/category/category-name-${i + 1}`}>Category Name {i + 1}</Link>
+                    {/* Replaced Link with <a> */}
+                    <a href={`/category/category-name-${i + 1}`}>Category Name {i + 1}</a>
                   </li>
                 ))}
               </ul>
@@ -203,8 +200,9 @@ const HomePage = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[...Array(4)].map((_, i) => (
-              <Link
-                to={`/blog/post/${i + 1}`}
+              // Replaced Link with <a>
+              <a
+                href={`/blog/post/${i + 1}`}
                 key={i}
                 className="rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 block"
                 style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}
@@ -213,24 +211,24 @@ const HomePage = () => {
                   className="w-full h-36 flex items-center justify-center text-sm"
                   style={{ backgroundColor: 'var(--blog-placeholder-bg)', color: 'var(--text-muted)' }}
                 >
-                  {/* Using the same banner1Image for blog placeholders as well, for consistency */}
                   <img src={'https://picsum.photos/id/1019/400/250'} alt={`Blog Post ${i + 1}`} className="w-full h-full object-cover" />
                 </div>
                 <div className="p-4">
                   <p className="text-base font-semibold mb-2" style={{ color: 'var(--blog-card-text)' }}>Blog Post Title {i + 1}</p>
                   <p className="text-sm" style={{ color: 'var(--blog-card-description)' }}>Short description of the blog post content. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
 
           {/* See All Blogs Button */}
           <div className="text-center mt-10">
-            <Link
-              to="/blogs"
+            {/* Replaced Link with <a> */}
+            <a
+              href="/blogs"
               className="inline-block font-bold py-3 px-8 rounded-full text-lg shadow-lg transform transition-transform duration-300 hover:scale-105"
               style={{
-                backgroundColor: 'var(--banner-button-bg)', // Using banner button colors for consistency
+                backgroundColor: 'var(--banner-button-bg)',
                 color: 'var(--banner-button-text)'
               }}
               onMouseEnter={(e) => {
@@ -241,7 +239,7 @@ const HomePage = () => {
               }}
             >
               See All Blogs
-            </Link>
+            </a>
           </div>
         </div>
 

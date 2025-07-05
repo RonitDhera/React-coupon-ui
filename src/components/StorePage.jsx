@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from 'react'; // Import useState and useCallback
-import { useParams, Link } from 'react-router-dom';
-import OfferCard from './OfferCard'; // Import the reusable OfferCard component
+import React, { useState } from 'react'; // Removed useCallback, as it's not strictly necessary without heavy performance concerns in this simplified version
+// Removed useParams and Link as react-router-dom is being removed.
 
-const StorePage = () => {
-  const { storeName } = useParams();
+const StorePage = ({ storeName: propStoreName }) => { // Accept storeName as a prop instead of using useParams
+
+  // Use the prop for storeName, or a default if not provided
+  const storeName = propStoreName || 'DefaultStore';
 
   // State for the interactive rating
   const [userRating, setUserRating] = useState(0); // 0 means no rating yet, 1-5 is the user's selected rating
@@ -33,8 +34,8 @@ const StorePage = () => {
     { storeLogo: 'https://via.placeholder.com/100x100/D0D0D0/FFFFFF?text=Expired3', offerText: 'Another expired deal you might like', endDate: 'Mon, 01 Mar, 2025', showCode: false, offerValue: 'https://www.thebodyshop.com/another-old-deal', isExpired: true, tags: ['Verified'] },
   ];
 
-  // Function to render interactive stars
-  const renderStars = useCallback(() => {
+  // Function to render interactive stars - useCallback is removed as it's less critical for performance in static pages
+  const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
@@ -53,32 +54,32 @@ const StorePage = () => {
       );
     }
     return stars;
-  }, [userRating, hoverRating]); // Re-render stars if userRating or hoverRating changes
+  };
 
   return (
     <div className="pb-12 min-h-screen font-sans" style={{ backgroundColor: 'var(--page-bg)' }}>
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8">
-        {/* Breadcrumbs */}
+        {/* Breadcrumbs - Changed Link to a and to properties to href */}
         <nav className="text-sm mb-6">
-          <Link
-            to="/"
+          <a
+            href="/" // Changed to href
             className="transition-colors duration-300"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             Home
-          </Link>
+          </a>
           <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
-          <Link
-            to="/stores"
+          <a
+            href="/stores.html" // Changed to href, assuming a static 'stores.html' page
             className="transition-colors duration-300"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             Stores
-          </Link>
+          </a>
           <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
           <span className="font-semibold" style={{ color: 'var(--main-heading-color)' }}>{formattedStoreName} Promo Codes</span>
         </nav>
@@ -197,7 +198,7 @@ const StorePage = () => {
               <ul className="list-disc list-inside space-y-2 text-sm">
                 <li>
                   <a
-                    href="#"
+                    href="#" // Changed to href
                     className="transition-colors duration-300"
                     style={{ color: 'var(--text-muted)' }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
@@ -208,7 +209,7 @@ const StorePage = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#" // Changed to href
                     className="transition-colors duration-300"
                     style={{ color: 'var(--text-muted)' }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
@@ -219,7 +220,7 @@ const StorePage = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#" // Changed to href
                     className="transition-colors duration-300"
                     style={{ color: 'var(--text-muted)' }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
@@ -240,7 +241,7 @@ const StorePage = () => {
               <ul className="list-disc list-inside space-y-2 text-sm">
                 <li>
                   <a
-                    href="#"
+                    href="#" // Changed to href
                     className="transition-colors duration-300"
                     style={{ color: 'var(--text-muted)' }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
@@ -251,7 +252,7 @@ const StorePage = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#" // Changed to href
                     className="transition-colors duration-300"
                     style={{ color: 'var(--text-muted)' }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}
@@ -262,7 +263,7 @@ const StorePage = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#" // Changed to href
                     className="transition-colors duration-300"
                     style={{ color: 'var(--text-muted)' }}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-orange)'}

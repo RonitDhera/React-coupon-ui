@@ -1,6 +1,6 @@
 // src/components/BlogCategoryPage.jsx
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom'; // Keep useParams for categorySlug
 
 const allBlogPosts = [
   {
@@ -87,25 +87,25 @@ const BlogCategoryPage = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8">
         {/* Breadcrumbs */}
         <nav className="text-sm mb-6">
-          <Link
-            to="/"
+          <a // Changed from Link to a
+            href="/" // Changed from to="/"
             className="transition-colors duration-300"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             Home
-          </Link>
+          </a>
           <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
-          <Link
-            to="/blogs"
+          <a // Changed from Link to a
+            href="/blogs" // Changed from to="/blogs"
             className="transition-colors duration-300"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
             onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             Blogs
-          </Link>
+          </a>
           <span className="mx-2" style={{ color: 'var(--breadcrumb-separator-color)' }}>&gt;</span>
           <span className="font-semibold" style={{ color: 'var(--main-heading-color)' }}>{formattedCategoryName}</span>
         </nav>
@@ -132,23 +132,24 @@ const BlogCategoryPage = () => {
                 className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border"
                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
-                <Link to={`/blog/${post.id}`}>
+                <a href={`/blog/${post.id}`}> {/* Changed from Link to a */}
                   <img src={post.imageUrl} alt={post.title} className="w-full h-48 object-cover" />
-                </Link>
+                </a>
                 <div className="p-5">
                   <div className="text-xs font-semibold uppercase mb-2" style={{ color: 'var(--primary-orange)' }}>
+                    {/* No Link here, just text as per original logic */}
                     {post.category}
                   </div>
                   <h3 className="text-xl font-bold mb-3 leading-snug" style={{ color: 'var(--heading-color)' }}>
-                    <Link
-                      to={`/blog/${post.id}`}
+                    <a // Changed from Link to a
+                      href={`/blog/${post.id}`} // Changed from to={`/blog/...`}
                       className="transition-colors duration-300"
                       style={{ color: 'var(--heading-color)' }}
                       onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-accent-hover)'}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'var(--heading-color)'}
                     >
                       {post.title}
-                    </Link>
+                    </a>
                   </h3>
                   <p className="text-sm mb-4 line-clamp-3" style={{ color: 'var(--text-default)' }}>{post.excerpt}</p>
                   <div className="flex justify-between items-center text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -165,8 +166,8 @@ const BlogCategoryPage = () => {
             style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
           >
             <p className="text-xl" style={{ color: 'var(--text-muted)' }}>No blog posts found in this category yet.</p>
-            <Link
-              to="/blogs"
+            <a // Changed from Link to a
+              href="/blogs" // Changed from to="/blogs"
               className="mt-4 inline-block font-bold py-2 px-4 rounded-md transition-colors duration-200"
               style={{
                 backgroundColor: 'var(--primary-orange)',
@@ -176,7 +177,7 @@ const BlogCategoryPage = () => {
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-orange)'}
             >
               View All Blogs
-            </Link>
+            </a>
           </div>
         )}
 
