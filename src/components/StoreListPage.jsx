@@ -266,16 +266,6 @@ const StoreListPage = () => {
     fetchStores(); // Initial fetch on component mount
   }, [fetchStores]);
 
-
-  // NEW: Memoized list of popular stores
-  const popularStores = useMemo(() => {
-    // You can adjust the criteria for "popular" here
-    // Currently using the 'isPopular' flag from dummy data
-    // Alternatively, you could sort by totalOffers and take a slice:
-    // return [...stores].sort((a, b) => b.totalOffers - a.totalOffers).slice(0, 10);
-    return stores.filter((store) => store.isPopular);
-  }, [stores]);
-
   // NEW: Memoized list for the A-Z "All Stores" section
   const alphaFilteredStores = useMemo(() => {
     let filtered = stores;
@@ -292,7 +282,6 @@ const StoreListPage = () => {
 
     return filtered;
   }, [stores, activeLetter]);
-
 
   if (loading) {
     return (
@@ -388,40 +377,6 @@ const StoreListPage = () => {
             All Stores
           </span>
         </nav>
-
-        {/* NEW: Popular Stores Section */}
-        {popularStores.length > 0 && (
-          <section className="mb-10">
-            <h2
-              className="text-2xl sm:text-3xl font-bold mb-6 text-center"
-              style={{ color: "var(--main-heading-color)" }}
-            >
-              Popular Stores
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-              {popularStores.map((store) => (
-                <Link
-                  key={`popular-${store.id}`}
-                  to={`/store/${store.name.toLowerCase().replace(/\s/g, "-")}`}
-                  className="flex items-center justify-center p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border"
-                  style={{
-                    backgroundColor: "var(--card-bg)",
-                    borderColor: "var(--card-border)",
-                  }}
-                >
-                  <img
-                    src={
-                      store.logo ||
-                      "https://via.placeholder.com/80x80?text=Store+Logo"
-                    }
-                    alt={`${store.name} Logo`}
-                    className="w-full h-full object-contain p-2 max-w-[80px] max-h-[80px]" // Adjusted image sizing
-                  />
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* NEW: A-Z Navigation for All Stores */}
         <section className="mb-10">
